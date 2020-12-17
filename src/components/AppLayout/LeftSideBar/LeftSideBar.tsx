@@ -13,7 +13,7 @@ import { Layout, Menu } from "antd";
 const { Sider } = Layout;
 
 export default function LeftSideBar() {
-  const { menuActive, toggleMenuActive } = useContext(LayoutContext);
+const { menuActive, /* toggleMenuActive*/ } = useContext(LayoutContext);
   return (
     <Sider
       collapsed={true}

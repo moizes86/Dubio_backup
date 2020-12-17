@@ -1,16 +1,16 @@
-import React, { Children } from "react";
+import React from "react";
 import "./claim-details.scss";
 
 import { Timeline, Collapse } from "antd";
-import ClaimHeader from "../../claim-header/claim-header";
 import ClaimDetailsJobTitle from "./claim-details-job-title/claim-details-job-title";
 import ClaimDetailsMaker from "./claim-maker/claim-maker";
 import ClaimDetailsLocationAndPlace from "./claim-details-location-and-date/claim-details-location-and-date";
 import PlusSign from "../../plus-sign/plus-sign";
+import CollapsibleHeader from "../../collapsible-header/collapsible-header";
 const { Panel } = Collapse;
 
 export default function ClaimDetails({ id }: any) {
-  const claimHeader = React.createElement(ClaimHeader, {
+  const claimHeader = React.createElement(CollapsibleHeader, {
     title: "Donald Trump",
     dates: ["12 February 2020", "20 June 2020", "20 June 2020", "20 June 2020"],
     rate: 10,

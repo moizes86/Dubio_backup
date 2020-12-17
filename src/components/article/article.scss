@@ -1,0 +1,136 @@
+.article-container {
+  padding-bottom: 30px;
+  @media screen and (max-width: 450px) {
+    font-size: 1.1rem;
+  }
+
+  .ant-collapse {
+    background-color: transparent;
+    border: none;
+    width: 100%;
+
+    .ant-collapse-item {
+      border-bottom: none;
+
+      .ant-collapse-header {
+        @media screen and (max-width: 900px) {
+          position: relative;
+          padding: 5px 0;
+
+          .ant-collapse-arrow {
+            position: absolute;
+            top: 25px !important;
+            left: 95%;
+          }
+        }
+      }
+    }
+  }
+
+  .ant-collapse-content {
+    border-top: none;
+
+    .ant-collapse-content-box {
+      padding: 0;
+
+      .ant-card-body {
+        padding: 10px 16px;
+        justify-content: space-between;
+
+        @media screen and (max-width: 450px) {
+          padding: auto 5px !important;
+        }
+      }
+    }
+  }
+
+  .ant-card-meta-avatar {
+    @media screen and (max-width: 900px) {
+      // display: none;
+    }
+  }
+  .ant-card-body {
+    display: flex;
+    justify-content: space-between;
+    @media screen and (max-width: 900px) {
+      padding: 5px;
+      flex-direction: column;
+    }
+  }
+
+  .article-card-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    @media screen and (max-width: 900px) {
+      flex-direction: column;
+    }
+
+    .article-section {
+      margin: 10px;
+      display: flex;
+
+      @media screen and (max-width: 900px) {
+        margin: 10px 2px;
+      }
+    }
+
+    .source-and-trending-counter {
+      flex-basis: 25%;
+      flex-grow: 1;
+      justify-content: flex-end;
+      margin-right: -5px;
+      @media screen and (max-width: 900px) {
+        width: 100%;
+        flex-grow: 1;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 0;
+        padding-right: 15px;
+      }
+
+      .source {
+        margin: auto 10px;
+        *{
+          display: block;
+        }
+        @media screen and (max-width: 900px) {
+          display: inline-flex;
+        }
+        * {
+          margin: auto 10px;
+        }
+      }
+      .trending-counter {
+        flex-grow: 0;
+      }
+    }
+
+    .img-title-description {
+      flex-grow: 1;
+      flex-basis: 65%;
+
+      @media screen and (max-width: 900px) {
+        width: 100%;
+      }
+
+      .ant-card-meta-title {
+        white-space: pre-wrap;
+        padding-right: 25px;
+      }
+      .img-box {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        height: 55px;
+        background-size: cover;
+        background-position: center;
+      }
+      .link {
+        color: black;
+      }
+    }
+  }
+}

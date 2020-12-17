@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Select from "antd/lib/select";
 import "./DubioSelectInput.scss";
 interface IOption {

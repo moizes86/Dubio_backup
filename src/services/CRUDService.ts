@@ -11,12 +11,13 @@ export const httpGet = async (
 export const httpPut = (url: string, Request: any) => {
   httpService('put', url, Request);
 };
-export const httpPost = (
+
+export const httpPost =  (
   url: string,
   Request: any,
   includeToken: boolean = true
 ) => {
-  httpService('post', url, Request, includeToken);
+ return httpService('post', url, Request, includeToken);
 };
 
 export const httpDelete = (url: string, Request: any) => {

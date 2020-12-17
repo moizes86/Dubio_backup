@@ -15,7 +15,7 @@ export default function AppHeader() {
       style={{ backgroundColor: "#615dfa", paddingLeft: "10px" }}
     >
       <div className="app-title">
-        <img src={require("../../../images/dubioLogo.png")} />
+        <img src={require("../../../images/dubioLogo.png")} alt="" />
       </div>
 
       <Menu

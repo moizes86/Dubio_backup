@@ -12,13 +12,13 @@ export default function LoginPage() {
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const isLogged = useSelector(isLoggedSelector);
-  useEffect(() => {
-    console.log('isLogged:', isLogged);
+  // useEffect(() => {
+  //   console.log('isLogged:', isLogged);
 
-    if (isLogged) {
-      history.push('/');
-    }
-  }, [isLogged]);
+  //   if (isLogged) {
+  //     history.push('/');
+  //   }
+  // }, [isLogged, history]);
 
   const handleLogin = () => {
     dispatch(loginThunk(name, password));
@@ -28,7 +28,7 @@ export default function LoginPage() {
     <div className="login-page">
       <div className="login-container">
         <header className="login-page-header">
-          <img src={require('../../images/dubioLogo.png')} />
+          <img src={require('../../images/dubioLogo.png')} alt="" />
         </header>
         <Input
           size="large"

@@ -8,7 +8,6 @@ const Hamburger = () => {
     <div className="hamburger">
       <a
         id="hamburger-icon"
-        href="#"
         onClick={toggleMenuActive}
         className={menuActive ? "active" : ""}
       >

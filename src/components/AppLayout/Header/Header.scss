@@ -10,7 +10,6 @@
   }
 
   .app-title {
-    // margin-right: 26px;
     color: #fff;
     font-family: Titillium Web, sans-serif;
     font-size: 1.25rem;
@@ -27,6 +26,7 @@
     padding-top: 10px;
     display: flex;
     color: white;
+    margin-left: -200px;
 
     @media screen and (max-width: 900px) {
       position: absolute;
@@ -48,8 +48,8 @@
   }
 
   .slide-left {
-    -webkit-animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-    animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    -webkit-animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
+    animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) ;
   }
   .slide-right {
     -webkit-animation: slide-right 0.5s cubic-bezier(-0.25, -0.46, -0.45, -0.94) both;
@@ -64,6 +64,17 @@
     100% {
       -webkit-transform: translateX(-210px);
       transform: translateX(-210px);
+    }
+  }
+
+  @keyframes slide-right {
+    // 0% {
+    //   -webkit-transform: translateX(0);
+    //   transform: translateX(0);
+    // }
+    100% {
+      -webkit-transform: translateX(210px);
+      transform: translateX(210px);
     }
   }
 }

@@ -18,12 +18,13 @@ export default function PageHeader({
     <div className="header-Banner">
       <img
         className="cropped-banner"
-        src={require(`../../images/${bannerName}.png`)}
+        src={require(`../../images/${bannerName}.png`)} alt=""
       />
       <div className="header-content">
         <img
           className="computer-img"
           src={require(`../../images/${leftImageName}.png`)}
+          alt=""
         />
         <div className="page-title-container">
           <div className="page-title">{pageTitle}</div>

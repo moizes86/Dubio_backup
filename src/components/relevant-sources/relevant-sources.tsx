@@ -1,8 +1,8 @@
 import React from "react";
 import "./relevant-sources.scss";
-import { Card, Collapse } from "antd";
+import { Collapse } from "antd";
 import DubioFormCard from "../DubioFormCard/DubioFormCard";
-import ClaimHeader from "../claim-header/claim-header";
+import CollapsibleHeader from "../collapsible-header/collapsible-header";
 import PlusSign from "../plus-sign/plus-sign";
 const { Panel } = Collapse;
 
@@ -10,13 +10,13 @@ export default function RelevantSourcesList() {
   const plusSignComponent = React.createElement(PlusSign, {
     customClassName: "relevat-source-component",
   });
-  const claimHeaderComponent1 = React.createElement(ClaimHeader, {
+  const claimHeaderComponent1 = React.createElement(CollapsibleHeader, {
     title: "Intreview: Donald Trump On The Haward Stern Show",
     dates: ["12 September 2002"],
     rate: 2,
   });
 
-  const claimHeaderComponent2 = React.createElement(ClaimHeader, {
+  const claimHeaderComponent2 = React.createElement(CollapsibleHeader, {
     title: "Intreview: Donald Trump On Fox Business",
     dates: ["15 December 2003"],
     rate: 4,

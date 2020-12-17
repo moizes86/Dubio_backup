@@ -1,5 +1,5 @@
 import React from "react";
-import "./claim-header.scss";
+import "./collapsible-header.scss";
 
 import {
   CaretUpFilled,
@@ -7,13 +7,13 @@ import {
   LinkOutlined,
 } from "@ant-design/icons";
 
-interface IClaimHeader {
+interface ICollapsibleHeader {
   title: string;
   dates: string[];
   rate: number;
 }
 
-export default function ClaimHeader({rate, title, dates}: IClaimHeader) {
+export default function CollapsibleHeader({rate, title, dates}: ICollapsibleHeader) {
   return (
     <div className="claim-form-header">
       <div className="claim-form-header-counter">
