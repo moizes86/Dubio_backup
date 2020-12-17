@@ -14,10 +14,7 @@
 
 @media screen and (min-width: 1500px) {
   .page-container {
-    width: 75%;
-  }
-  * {
-    font-size: 20px;
+    width: 85%;
   }
 }
 
@@ -28,13 +25,13 @@
   }
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 450px) {
   * {
     font-size: 13px;
   }
 }
 
-@media screen and (max-width: 900px) and (max-height:500px){
+@media screen and (max-width: 900px) and (max-height: 500px) {
   * {
     font-size: 13px;
   }

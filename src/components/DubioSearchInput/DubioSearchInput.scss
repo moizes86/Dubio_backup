@@ -1,9 +1,15 @@
 // .dubio-input-container {
-//   border: 1px solid #908e8e;
-//   border-radius: 9px;
-//   padding: 2px 12px;
-//   width: fit-content;
-//   position: relative;
+//   @media screen and (min-width: 1500px) {
+//     min-width: 200px !important;
+//     margin: auto 5px !important;
+//     .dubio-input-label {
+//       font-size: 0.6rem !important;
+//     }
+//     * {
+//       font-size: 0.7rem !important;
+//     }
+//   }
+// }
 
 //   @media screen and (max-width:900px){
 //     border: 1px solid #908e8e;
