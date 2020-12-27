@@ -5,7 +5,7 @@ export const httpGet = async (
   Request: any,
   includeToken: boolean = true
 ) => {
-  return await httpService('post', url, Request, includeToken);
+  return await httpService('get', url, Request, includeToken);
 };
 
 export const httpPut = (url: string, Request: any) => {

@@ -57,7 +57,7 @@ export default function Article({
                 <div className="article-section source-and-trending-counter">
                     <div className="source">
                         <a href={Url} rel='noreferrer noopener' target="_blank">Source</a>
-                        <Link to={`/Fact-Check/${InternalUrl}`} className="link">More Details</Link>
+                        <Link to={`/Claim-Review/${InternalUrl}`} className="link">More Details</Link>
                     </div>
 
                   <div className="trending-counter">

@@ -12,8 +12,19 @@
     }
   }
 
+  .ant-card-body {
+    @media screen and (max-width: 450px) {
+      padding: 0;
+    }
+  }
+
   .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     padding-left: 0px;
+    position:relative;
+  }
+
+  .ant-collapse-item:last-of-type{
+    border-bottom: none;
   }
 
   .relevant-source-collapse {
@@ -23,10 +34,11 @@
     .plus-sign-container {
       position: absolute;
       right: 40px;
-      top: 0px;
-
+      top: inherit;
       @media screen and (max-width: 900px) {
         right: 30px;
+        top:13px;
+        margin-right: 10px;
       }
     }
 

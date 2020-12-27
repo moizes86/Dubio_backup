@@ -1,7 +1,5 @@
 .claim-container {
-  margin: 10px 0 0 20px;
-  // display: flex;
-  // justify-content: space-between;
+  // margin: 10px 0 0 20px;
 
   @media screen and (max-width: 450px) {
     flex-wrap: wrap;
@@ -11,6 +9,14 @@
       display: flex;
       flex-grow: 1;
       justify-content: flex-end;
+    }
+  }
+
+  .link {
+    color: inherit;
+    &:hover {
+      opacity: 0.9;
+      transition: 0.2s;
     }
   }
   .claim-content {

@@ -1,14 +1,21 @@
 .claim-details-container {
   .ant-card-type-inner .ant-card-body {
-    // padding: 0 !important;
+    @media screen and (max-width: 450px) {
+      padding: 0;
+    }
   }
   .ant-collapse {
-    background-color: none !important;
+    // background-color: none !important;
     border: none !important;
   }
   .ant-collapse > .ant-collapse-item {
-    border-bottom: 3px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
   }
+
+  .claim-details:last-of-type > .ant-collapse .ant-collapse-item {
+    border-bottom: none !important;
+  }
+
   .ant-collapse
     > .ant-collapse-item
     > .ant-collapse-header

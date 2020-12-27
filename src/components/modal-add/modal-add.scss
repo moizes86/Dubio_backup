@@ -1,0 +1,20 @@
+.modal-add-button {
+  display: block;
+  background: #23d2e2 !important;
+  border: #23d2e2;
+//   margin: 10px auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+  border-radius: 10px;
+  padding: 0px;
+  width: 120px;
+  font-weight: 500;
+  height: 40px;
+  z-index: 10;
+}
+
+textarea:focus {
+  outline: none;
+}

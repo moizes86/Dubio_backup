@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import FactCheckPage from './pages/FactCheckPage/FactCheckPage';
+import ClaimReview from './pages/claim-review/claim-review';
 import LoginPage from './pages/LoginPage/LoginPage';
 import AppLayout from './components/AppLayout/AppLayout';
 import ArticlesDashboard from './pages/articles-dashboard/articles-dashboard';
@@ -17,8 +17,8 @@ function App() {
               <Route exact path="/">
                 <ArticlesDashboard />
               </Route>
-              <Route exact path="/Fact-Check/:articleInternalUrl">
-                <FactCheckPage />
+              <Route exact path="/Claim-Review/:claimInternalUrl/:claimId">
+                <ClaimReview />
               </Route>
               <Route exact path="/login">
                 <LoginPage />

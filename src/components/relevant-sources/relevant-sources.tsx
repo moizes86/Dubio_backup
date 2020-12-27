@@ -4,6 +4,7 @@ import { Collapse } from "antd";
 import DubioFormCard from "../DubioFormCard/DubioFormCard";
 import CollapsibleHeader from "../collapsible-header/collapsible-header";
 import PlusSign from "../plus-sign/plus-sign";
+import ModalAdd from "../modal-add/modal-add";
 const { Panel } = Collapse;
 
 export default function RelevantSourcesList() {
@@ -43,7 +44,7 @@ export default function RelevantSourcesList() {
           {claimHeaderComponentsArr.map((component: any, i: number) => (
             <Panel
             header={component}
-            extra={plusSignComponent}
+            // extra={plusSignComponent}
             className="relevant-source-panel"
             key={`${i}-${component.props.title}`}
             >
@@ -62,6 +63,7 @@ export default function RelevantSourcesList() {
           ))}
         </Collapse>
       </DubioFormCard>
+      <ModalAdd title={'Add Relevant Source'}/>
     </div>
   );
 }

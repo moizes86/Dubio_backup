@@ -1,17 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-import { getArticlesAsync, /*getClaimsAsync*/ } from '../../services/APIServices/ArticlesApi';
-import { AppThunk } from '../store';
 import { RootState } from '../rootReducer';
+import { findArticle } from './article-slice.utils';
 
-import { useDispatch } from 'react-redux';
 
 interface IArticlesInitialState {
   articlesArr: any;
   article: any;
   claimsArr: any;
+  claim: any;
   loading: boolean;
-  errorMessage: string;
+  errorMessage: any;
 }
 
 let initialState: IArticlesInitialState = {
@@ -20,6 +18,7 @@ let initialState: IArticlesInitialState = {
   loading: false,
   errorMessage: '',
   article: null,
+  claim: null,
 }
 
 const articleSlice = createSlice({
@@ -70,93 +69,34 @@ const articleSlice = createSlice({
       return state;
     },
     getArticle: (state, action) => {
-      console.log('GET ARTICLE FIRED')
       const article: any = findArticle(state.articlesArr, action.payload);
 
       state.article = article;
 
       return state;
     },
-    /*
-    getClaimsStart: state=>{
+
+    getClaimReviewStart: state => {
       state.loading = true;
     },
-    getClaimsSuccess : (state, action:any)=>{
+    getClaimReviewSuccess: (state, action: any) => {
       state.loading = false;
-      // state.claimsArr = action.payload;
+      state.claim = action.payload;
     },
-    getClaimsFailure : (state, action:any)=> {
+    getClaimReviewFailure: (state, action: any) => {
       state.loading = false;
-      // state.errorMessage = action.payload;
+      state.errorMessage = action.payload;
     }
-    */
   },
 });
 
-export const { toggleHotCount, toggleBookmarkCount, getArticlesStart, getArticlesSuccess, getArticlesFailure, getArticle,  /*getClaimsStart, getClaimsSuccess, getClaimsFailure*/ } = articleSlice.actions;
+export const { toggleHotCount, toggleBookmarkCount, getArticlesStart, getArticlesSuccess, getArticlesFailure, getArticle, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure } = articleSlice.actions;
 
-function findArticle(articlesArr: any, { type, data }: any) {
-  switch (type) {
-    case 'url':
-      return articlesArr.find((article: any) => article.InternalUrl == data)
-  }
-};
-
-function setArticlesInLocalStorage(articles: any) {
-  const articlesToStore = articles.data.Articles;
-  return (
-    window.localStorage.setItem('Articles', JSON.stringify(articlesToStore))
-  )
-};
-
-function getArticlesFromLocalStorage(dispatch: any) {
-  let articles: any = window.localStorage.getItem("Articles");
-  articles = JSON.parse(articles);
-  dispatch(getArticlesSuccess(articles));
-};
-
-function articlesInLocalStorage() {
-  const articlesFromStorage = window.localStorage.getItem("Articles")
-  return (
-    articlesFromStorage ?
-      true :
-      false
-  )
-};
-
-
-
-export const getArticles = (): AppThunk => async (dispatch) => {
-  const articlesInStorage = articlesInLocalStorage();
-  if (!articlesInStorage) {
-    const url = `https://api.dubioo.com/api/Page/Dashboard`;
-    const body = { "pagesize": 10 };
-
-    try {
-      dispatch(getArticlesStart());
-      const result = await getArticlesAsync(url, body);
-      dispatch(getArticlesSuccess(result.data.Articles));
-      setArticlesInLocalStorage(result);
-    } catch (error) {
-      dispatch(getArticlesFailure(error))
-    }
-
-  } else {
-    getArticlesFromLocalStorage(dispatch);
-  }
-};
-
-/*export const getClaims = (): AppThunk => async (dispatch) => {
-  try{
-    dispatch(getClaimsStart());
-
-    const claimsFromAPI: any = await Promise.resolve(getClaimsAsync());
-
-  }catch (error){ dispatch(getClaimsFailure(error))}
-}*/
 
 export const articlesArrSelector = (state: RootState) => state.articles.articlesArr;
 export const articlesLoadingSelector = (state: RootState) => state.articles.loading;
 export const articleSelector = (state: RootState) => state.articles.article;
+export const claimSelector = (state: RootState) => state.articles.claim;
+export const errorMessageSelector = (state: RootState) => state.articles.errorMessage;
 
 export default articleSlice.reducer;
