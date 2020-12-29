@@ -1,7 +1,7 @@
 .app-header {
   display: flex;
   align-items: center;
-  background-color: "#615dfa" !important;
+  background-color: '#615dfa' !important;
   position: relative;
 
   @media screen and (max-width: 900px) {
@@ -39,20 +39,27 @@
       padding: 10px;
     }
   }
+
+  .login-logout-btn {
+    position: absolute;
+    right: 20px;
+  }
   .header-menu-active {
     animation: slide-left 0.2s forwards;
   }
 
-  .header-menu-inactive{
+  .header-menu-inactive {
     animation: slide-right 0.2s forwards;
   }
 
   .slide-left {
-    -webkit-animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both;
-    animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) ;
+    -webkit-animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+      reverse both;
+    animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   .slide-right {
-    -webkit-animation: slide-right 0.5s cubic-bezier(-0.25, -0.46, -0.45, -0.94) both;
+    -webkit-animation: slide-right 0.5s cubic-bezier(-0.25, -0.46, -0.45, -0.94)
+      both;
     animation: slide-right 0.5s cubic-bezier(-0.25, -0.46, -0.45, -0.94) both;
   }
 

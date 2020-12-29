@@ -34,7 +34,7 @@ function checkLocalStorage(data: string) {
 
 export const getArticles = (): AppThunk => async (dispatch) => {
     const dataType = "Articles";
-    const articlesInStorage = checkLocalStorage(dataType);
+    const articlesInStorage =false;
     if (!articlesInStorage) {
         const url = `https://api.dubioo.com/api/Page/Dashboard`;
         const body = { "pagesize": 10 };

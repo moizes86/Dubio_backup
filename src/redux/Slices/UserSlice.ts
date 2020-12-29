@@ -1,15 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { login } from '../../services/APIServices/UserApi';
 import { RootState } from '../rootReducer';
 import { AppThunk } from '../store';
 
 interface IUserInitialState {
-  userData: any;
+  isLoggedIn: boolean;
   loading: boolean;
   errorMassage: string;
 }
 
 let initialState: IUserInitialState = {
-  userData: null,
+  isLoggedIn: false,
   loading: false,
   errorMassage: '',
 };
@@ -24,16 +25,19 @@ const userSlice = createSlice({
     },
     loginSuccesses(state, action: PayloadAction<any>) {
       state.loading = false;
-      state.userData = action.payload;
+      state.isLoggedIn = !!action.payload.data;
     },
-    loginFailure(state, action: PayloadAction<any>) {
+    loginFailure(state) {
       state.loading = false;
-      state.errorMassage = action.payload;
+      state.errorMassage = 'User name or Password are incorrect';
     },
+    logOut(state){
+      state.isLoggedIn = false;
+    }
   },
 });
 
-export const { startLogin, loginSuccesses, loginFailure } = userSlice.actions;
+export const { startLogin, loginSuccesses, loginFailure, logOut } = userSlice.actions;
 export default userSlice.reducer;
 
 export const loginThunk = (name: string, password: string): AppThunk => async (
@@ -41,13 +45,24 @@ export const loginThunk = (name: string, password: string): AppThunk => async (
 ) => {
   try {
     dispatch(startLogin());
-    // const response = login(name, password);
-
-    localStorage.setItem('token', '1234');
-    localStorage.setItem('refresh token', '1234');
-    dispatch(loginSuccesses({ name: 'bhb' }));
-    // dispatch(loginFailure('1233'));
-  } catch (err) {}
+    const response = await login(name, password);
+    localStorage.setItem('access-token', response.data.AccessToken);
+    localStorage.setItem('refresh-token', response.data.RefreshToken);
+    localStorage.setItem('last-login', Date.now().toString());
+    dispatch(loginSuccesses(response));    
+  } catch (err) {
+    dispatch(loginFailure())
+  }
 };
 
-export const isLoggedSelector = (state: RootState) => state.user.userData; //COPY THIS SELECTOR
+export const logoutThunk = (): AppThunk => async (
+  dispatch
+) =>{
+  dispatch(logOut());
+  localStorage.removeItem('access-token');
+  localStorage.removeItem('refresh-token');
+}
+
+
+export const isLoggedSelector = (state: RootState) => state.user.isLoggedIn; 
+export const errorMassage = (state: RootState) => state.user.errorMassage; 
