@@ -1,7 +1,7 @@
 .app-header {
   display: flex;
   align-items: center;
-  background-color: '#615dfa' !important;
+  // background-color: '#615dfa' !important;
   position: relative;
 
   @media screen and (max-width: 900px) {
@@ -26,7 +26,7 @@
     padding-top: 10px;
     display: flex;
     color: white;
-    margin-left: -200px;
+    flex-grow: 1;
 
     @media screen and (max-width: 900px) {
       position: absolute;
@@ -37,19 +37,28 @@
       flex-direction: column;
       z-index: 9;
       padding: 10px;
+      justify-content: flex-start !important;
+    }
+
+    #login-logout-btn {
+      margin-left: auto;
+  
+      @media screen and (max-width: 900px) {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
     }
   }
 
-  .login-logout-btn {
-    position: absolute;
-    right: 20px;
-  }
+  
   .header-menu-active {
     animation: slide-left 0.2s forwards;
   }
 
   .header-menu-inactive {
-    animation: slide-right 0.2s forwards;
+    // animation: slide-right 0.2s forwards;
   }
 
   .slide-left {

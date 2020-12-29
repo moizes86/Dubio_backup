@@ -19,7 +19,7 @@ export default function DubioSelectInput(props: {
         size="large"
         className="dubio-input"
         bordered={false}
-        style={{ width: 120 }}
+        style={{ width: 140 }}
         {...props}
       ></Select>
     </div>

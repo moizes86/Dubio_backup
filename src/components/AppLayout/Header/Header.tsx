@@ -8,6 +8,7 @@ import "./Header.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoggedSelector, logoutThunk } from "../../../redux/Slices/UserSlice";
 import { Button } from "antd";
+import MenuItem from "antd/lib/menu/MenuItem";
 const { Header } = Layout;
 
 export default function AppHeader() {
@@ -46,12 +47,17 @@ export default function AppHeader() {
         <Menu.Item key="6" onClick={menuActive ? toggleMenuActive : () => {}}>
           <Link to="/users">Events</Link>
         </Menu.Item>
-  
+        <MenuItem id="login-logout-btn">
+          <Button
+            onClick={() => dispatch(logoutThunk())}
+            className=""
+            type="primary"
+          >
+            <Link to="/login">{isLoggedIn ? "logout" : "Log In"}</Link>
+          </Button>
+        </MenuItem>
       </Menu>
       <Hamburger />
-      <Button onClick={()=>dispatch(logoutThunk())} className="login-logout-btn" type="primary">
-        <Link to="/login">{isLoggedIn? 'logout': 'Log In'}</Link>
-      </Button>
     </Header>
   );
 }

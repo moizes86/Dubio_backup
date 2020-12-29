@@ -1,5 +1,8 @@
 import React from "react";
 import "./claim-details.scss";
+//REDUX
+import {useSelector} from 'react-redux';
+import {claimReviewJobTitlesSelector} from '../../../redux/Slices/ArticleSlice';
 
 import { Timeline, Collapse } from "antd";
 import ClaimDetailsJobTitle from "./claim-details-job-title/claim-details-job-title";
@@ -9,6 +12,8 @@ import PlusSign from "../../plus-sign/plus-sign";
 import CollapsibleHeader from "../../collapsible-header/collapsible-header";
 const { Panel } = Collapse;
 
+
+
 export default function ClaimDetails({ id }: any) {
   const claimHeader = React.createElement(CollapsibleHeader, {
     title: "Donald Trump",
@@ -16,7 +21,9 @@ export default function ClaimDetails({ id }: any) {
     rate: 10,
   });
 
-  return (
+  const jobTitle = useSelector(claimReviewJobTitlesSelector);
+  
+  return(
     <div className="claim-details">
       <Collapse defaultActiveKey={"1"}>
         <Panel header={claimHeader} key={id}>
