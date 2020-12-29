@@ -1,57 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Input } from 'antd';
+import React, { useEffect } from 'react';
+import { Button, Form, Input } from 'antd';
 import './LoginPage.scss';
 import { useHistory } from 'react-router-dom';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { isLoggedSelector, loginThunk } from '../../redux/Slices/UserSlice';
+import { errorMassage, isLoggedSelector, loginThunk } from '../../redux/Slices/UserSlice';
+
+const layout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 18 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 0},
+};
 
 export default function LoginPage() {
   let history = useHistory();
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+
   const dispatch = useDispatch();
   const isLogged = useSelector(isLoggedSelector);
-  // useEffect(() => {
-  //   console.log('isLogged:', isLogged);
+  const loginErrorMassage = useSelector(errorMassage);
+  useEffect(() => {
+    console.log('isLogged:', isLogged);
 
-  //   if (isLogged) {
-  //     history.push('/');
-  //   }
-  // }, [isLogged, history]);
+    if (isLogged) {
+      history.push('/');
+    }
+  }, [isLogged, history]);
 
-  const handleLogin = () => {
-    dispatch(loginThunk(name, password));
+
+
+  const onFinish = (values: any) => {
+    console.log('values:', values);
+    
+    dispatch(loginThunk(values.username, values.password));
   };
 
   return (
-    <div className="login-page">
+       <div className="login-page">
       <div className="login-container">
         <header className="login-page-header">
           <img src={require('../../images/dubioLogo.png')} alt="" />
         </header>
-        <Input
-          size="large"
-          placeholder="User Name"
-          className="login-input"
-          value={name}
-          onChange={(ev) => setName(ev.target.value)}
-        />
-        <Input.Password
-          className="login-input"
-          placeholder="input password"
-          iconRender={(visible) =>
-            visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
-          }
-          value={password}
-          onChange={(ev) => setPassword(ev.target.value)}
-          autoComplete="off"
-        />
-
-        <Button onClick={handleLogin} type="primary" block size="large">
-          Log in
-        </Button>
-      </div>
+    <Form
+    {...layout}
+    name="basic"
+    initialValues={{ remember: true }}
+    onFinish={onFinish}
+  >
+    { loginErrorMassage &&
+      <div className="ant-form-item-explain, error-massage">
+        <div role="alert">
+          {loginErrorMassage}
+        </div>
     </div>
-  );
+    }
+    <Form.Item
+      label="Username"
+      name="username"
+      rules={[{ required: true, message: 'Please input your username!' }]}
+    >
+      <Input />
+    </Form.Item>
+
+    <Form.Item
+      label="Password"
+      name="password"
+      rules={[{ required: true, message: 'Please input your password!' }]}
+    >
+      <Input.Password />
+    </Form.Item>
+
+    <Form.Item {...tailLayout}>
+      <Button type="primary" htmlType="submit" className="login-btn" size="large">
+        Log in
+      </Button>
+    </Form.Item>
+  </Form>
+
+  </div>
+  </div>
+);
 }
