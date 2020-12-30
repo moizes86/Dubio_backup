@@ -8,7 +8,7 @@ interface IOption {
 export default function DubioSelectInput(props: {
   options: IOption[];
   onChange: (value: any) => void;
-  defaultValue: string;
+  defaultValue?: string;
   label: string;
   value: string;
 }) {

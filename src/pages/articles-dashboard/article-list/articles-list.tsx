@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import {
-  articlesArrSelector,
+  articlesArrSelector, articlesLoadingSelector,
   // articlesLoadingSelector,
 } from "../../../redux/Slices/ArticleSlice";
 import Article from "../../../components/article/article";
@@ -10,9 +10,11 @@ import "./articles-list.scss";
 
 export default function ArticlesList() {
   const articles = useSelector(articlesArrSelector);
+  const isLoading = useSelector(articlesLoadingSelector);
+  
   return (
     <div className="articles-list">
-      {articles ? (
+      {!isLoading  &&  articles? (
         articles.map((article: any) => {
           return (
             <Article

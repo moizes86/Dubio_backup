@@ -3,6 +3,10 @@ import { getArticlesStart, getArticlesSuccess, getArticlesFailure, getClaimRevie
 import { getArticlesAsync, getClaimReviewAsync } from '../../services/APIServices/ArticlesApi';
 import { AppThunk } from '../store';
 
+import {IArticleFilter} from '../../Interfaces/IArticleFilter'
+
+import {IServerSelectOption, ISelectOption} from '../../Interfaces/ISelectOption'
+
 export function findArticle(articlesArr: any, { type, data }: any) {
     switch (type) {
         case 'url':
@@ -32,25 +36,46 @@ function checkLocalStorage(data: string) {
     )
 };
 
-export const getArticles = (): AppThunk => async (dispatch) => {
+interface IGetArticlesBody {
+    PageSize: number;
+    PageNumber?: number;
+    Tags?: {Name: string; Value: string}[];
+    SearchText?: string
+}
+
+export const getArticles = (filter?: any, searchText?: string   ): AppThunk => async (dispatch) => {
     const dataType = "Articles";
-    const articlesInStorage = checkLocalStorage(dataType);
-    if (!articlesInStorage) {
+    // const articlesInStorage = checkLocalStorage(dataType);
+    // if (!articlesInStorage) {
         const url = `https://api.dubioo.com/api/Page/Dashboard`;
-        const body = { "pagesize": 10 };
+        const body: IGetArticlesBody = { 
+            PageSize: 10
+        }
+        if(filter){
+            let TagsArray: {Name: string, Value: string}[] = []
+           Object.keys(filter).forEach((propertyName: string, index: number , filterArray: any): void => {
+               if(filter[propertyName]){
+                   TagsArray.push({Name: propertyName.charAt(0).toUpperCase() + propertyName.slice(1), Value: filter[propertyName]})
+               }
+            });
+            body.Tags = TagsArray;
+        }
+        if(searchText){
+            body.SearchText = searchText 
+        }
 
         try {
             dispatch(getArticlesStart());
             const result = await getArticlesAsync(url, body);
-            dispatch(getArticlesSuccess(result.data.Articles));
+            dispatch(getArticlesSuccess(result.data));
             setDataInLocalStorage(dataType, result);
         } catch (error) {
             dispatch(getArticlesFailure(error))
         }
 
-    } else {
-        getDataFromLocalStorage(dispatch, dataType);
-    }
+    // } else {
+    //     getDataFromLocalStorage(dispatch, dataType);
+    // }
 };
 
 export const getClaimReview = (claimId: any): AppThunk => async (dispatch) => {
@@ -75,3 +100,15 @@ export const getClaimReview = (claimId: any): AppThunk => async (dispatch) => {
         console.log('CLAIM REVIEW SHOULD STORE IN LOCAL STORAGE')
     }
 };
+
+export const serverOptionsToAntOptions =(serverOptions: IServerSelectOption[]): ISelectOption[]=>{
+    console.log("serverOptions:", serverOptions);
+    
+    return serverOptions.map((option: IServerSelectOption)=>{
+        return {
+            label: option.Value,
+            value: option.Value
+        }
+        
+    })
+}

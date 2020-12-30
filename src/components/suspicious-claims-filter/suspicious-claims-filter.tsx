@@ -6,8 +6,10 @@ import DubioSearchInput from "../DubioSearchInput/DubioSearchInput";
 import DubioSelectInput from "../DubioSelectInput/DubioSelectInput";
 
 //REDUX
-import { useDispatch } from "react-redux";
-import { filterArticles } from "../../redux/Slices/ArticleSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getArticles } from "../../redux/Slices/article-slice.utils";
+import { filterAndSortOptionsSelector } from "../../redux/Slices/ArticleSlice";
+// import { filterArticles } from "../../redux/Slices/ArticleSlice";
 
 interface IOption {
   label: string;
@@ -57,57 +59,54 @@ export default function SuspiciousClaimsFilter() {
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState("");
   const [filter, setFilter] = useState({
-    region: "Worldwide",
-    topic: "All Topics",
-    language: "All Languages",
-    OrderBy: "Magic",
+    region: "",
+    topic: "",
+    language: "",
+    // OrderBy: "Magic",
   });
+
+
+  const filterAndSortOptions = useSelector(filterAndSortOptionsSelector);
   const handleChange = (
     value: string,
-    filterProperty: "region" | "topic" | "language" | "OrderBy"
+    filterProperty: "region" | "topic" | "language" 
   ) => {
-    const newFilterState = filter;
-    
-    newFilterState[filterProperty] = value;
-    console.log(newFilterState[filterProperty]);
-    setFilter({ ...newFilterState });
+
+
+    setFilter({ ...filter,[filterProperty]: value});
   };
 
   const handleSubmit = () => {
-    const searchObject = { searchValue, ...filter };
-    dispatch(filterArticles(searchObject));
+    dispatch(getArticles(filter, searchValue));
   };
   return (
     <DubioCard id="card-filter-claims">
       <div className="suspicious-claims-filter">
         <DubioSelectInput
-          defaultValue="Worldwide"
           label="Filter by region"
           onChange={(value) => handleChange(value, "region")}
-          options={regionOptions}
+          options={filterAndSortOptions.filterOptions.region}
           value={filter.region}
         />
         <DubioSelectInput
-          defaultValue="All Topics"
           label="Filter by topic"
           onChange={(value) => handleChange(value, "topic")}
-          options={topicOptions}
+          options={filterAndSortOptions.filterOptions.topic}
           value={filter.topic}
         />
         <DubioSelectInput
-          defaultValue="All Languages"
           label="Filter by language"
           onChange={(value) => handleChange(value, "language")}
-          options={languageOptions}
+          options={filterAndSortOptions.filterOptions.language}
           value={filter.language}
         />
-        <DubioSelectInput
+        {/* <DubioSelectInput
           defaultValue="Magic"
           label="Order by"
-          onChange={(value) => handleChange(value, "OrderBy")}
-          options={orderByOptions}
+          // onChange={(value) => handleChange(value, "OrderBy")}
+          options={filterAndSortOptions.sortOptions}
           value={filter.OrderBy}
-        />
+        /> */}
         <DubioSearchInput
           onChange={(ev) => setSearchValue(ev.target.value)}
           value={searchValue}
