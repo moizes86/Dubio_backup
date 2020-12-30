@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Button, Form, Input } from "antd";
 import "./LoginPage.scss";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   errorMassage,
@@ -25,7 +25,6 @@ export default function LoginPage() {
   const isLogged = useSelector(isLoggedSelector);
   const loginErrorMassage = useSelector(errorMassage);
   useEffect(() => {
-    console.log("isLogged:", isLogged);
 
     if (isLogged) {
       history.push("/");
@@ -33,19 +32,12 @@ export default function LoginPage() {
   }, [isLogged, history]);
 
   const onFinish = (values: any) => {
-    console.log("values:", values);
 
     dispatch(loginThunk(values.username, values.password));
   };
 
   return (
-    <>
-      <PageHeader
-        bannerName="banner"
-        leftImageName="streams-icon"
-        pageTitle="Login"
-        subTitle="Login And Start Fact-Check!"
-      />
+
     <div className="login-page">
       <div className="login-container">
         <header className="login-page-header">
@@ -89,8 +81,10 @@ export default function LoginPage() {
             </Button>
           </Form.Item>
         </Form>
+        <Button size="large">
+          <Link to="/"> Enter without a user</Link>
+        </Button>
       </div>
     </div>
-    </>
   );
 }

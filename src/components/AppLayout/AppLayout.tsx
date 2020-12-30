@@ -25,6 +25,9 @@ export default function AppLayout({ children }: IAppLayout) {
       </LayoutProvider>
     </Layout>
   ) : (
-    children
+    <Layout>
+    {children}
+    </Layout>
+
   );
 }
