@@ -8,7 +8,6 @@ import {
   isLoggedSelector,
   loginThunk,
 } from "../../redux/Slices/UserSlice";
-import PageHeader from "../../components/PageHeader/PageHeader";
 
 const layout = {
   labelCol: { span: 6 },
