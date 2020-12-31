@@ -14,13 +14,12 @@ export default function ClaimDetailsContainer() {
       >
         {/* <div className="claim-details"> */}
         <div className="">
-          
-            <ClaimDetails id="1"/>
-            <ClaimDetails id="2"/>
-            <ClaimDetails id="3"/>
+          <ClaimDetails id="1" />
+          <ClaimDetails id="2" />
+          <ClaimDetails id="3" />
         </div>
       </DubioFormCard>
-      <ModalAdd title="Who Made The Claim, Where And When?"/>
+      <ModalAdd title="Who Made The Claim, Where And When?" type={"summary"} />
     </div>
   );
 }

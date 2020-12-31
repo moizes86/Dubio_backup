@@ -1,10 +1,20 @@
 import React from "react";
-import { PlusOutlined } from "@ant-design/icons";
-import ModalAdd from "../modal-add/modal-add";
 import "./claim-summary.scss";
+
+//Redux
+import { useSelector } from 'react-redux';
+import { claimSummarySelector } from '../../redux/Slices/ArticleSlice';
+
+//Components
+import ModalAdd from "../modal-add/modal-add";
 import ClaimItem from "../claim-item/claim-item";
 import DubioFormCard from "../DubioFormCard/DubioFormCard";
-export default function ClaimSummary({ summaries, claimId }: any) {
+import { PlusOutlined } from "@ant-design/icons";
+
+export default function ClaimSummary({claimId}:any) {
+
+  const summaries= useSelector(claimSummarySelector);
+
   return (
     <>
       <DubioFormCard
@@ -25,7 +35,7 @@ export default function ClaimSummary({ summaries, claimId }: any) {
           ))}
         </div>
       </DubioFormCard>
-      <ModalAdd title={"Add Your Claim Summary"} />
+      <ModalAdd title={"Add Your Claim Summary"} type={'summary'} claimId={claimId}/>
     </>
   );
 }

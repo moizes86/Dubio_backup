@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ISelectOption } from "../../Interfaces/ISelectOption";
 import { RootState } from '../rootReducer';
+import { createSelector } from 'reselect'
+
+import { ISelectOption } from "../../Interfaces/ISelectOption";
 import { findArticle, serverOptionsToAntOptions } from './article-slice.utils';
 
 
@@ -13,7 +15,7 @@ interface IArticlesInitialState {
   loading: boolean;
   errorMessage: any;
   filterOptions: {
-    language:ISelectOption[],
+    language: ISelectOption[],
     region: ISelectOption[],
     topic: ISelectOption[]
   };
@@ -23,8 +25,8 @@ interface IArticlesInitialState {
 let initialState: IArticlesInitialState = {
   articlesArr: null,
   filteredArticlesArr: [],
-  filterOptions:{
-    language:[],
+  filterOptions: {
+    language: [],
     region: [],
     topic: []
   },
@@ -41,30 +43,10 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     toggleHotCount: (state, action) => {
-      if (!action.payload) return;
-
-      // let article = findArticle(state, action);
-      // if (article.isVoted) {
-      //   article.isVoted = false;
-      //   article.HotCount--;
-      // } else {
-      //   article.isVoted = true;
-      //   article.HotCount++;
-      // }
-
       return state;
     },
     toggleBookmarkCount: (state, action) => {
-      if (!action.payload) return;
-      // let article = findArticle(state, action);
-
-      // if (article.isFavorite) {
-      //   article.isFavorite = false;
-      //   article.BookmarkCount--;
-      // } else {
-      //   article.isFavorite = true;
-      //   article.BookmarkCount++;
-      // }
+      return state;
     },
     getArticlesStart: (state) => {
       state.loading = true;
@@ -108,29 +90,31 @@ const articleSlice = createSlice({
       state.loading = false;
       state.errorMessage = action.payload;
     },
-    // filterArticles: (state, action: any) => {
-    //   const { searchValue, region, topic, language, OrederBy } = action.payload;
-    //   state.filteredArticlesArr = state.articlesArr.filter((article: any) => {
-    //     for (let key in article) {
-    //       if (
-    //         (article.Tags[0].Value == language || language == 'All Languages')
-    //         &&
-    //         (article.Tags[1].Value == region || region == 'Worldwide')
-    //         &&
-    //         (article.Tags[2].Value == topic || topic == 'All Topics')
-    //         &&
-    //         article.Title.toLowerCase().includes(searchValue.toLowerCase())
-    //       ) {
-    //         return article
-    //       }
-    //     }
-    //   }
-    //   );
-    // }
+    postClaimSummaryStart: (state) => {
+      state.loading = true;
+    },
+    postClaimSummarySuccess: (state) => {
+      state.loading = false;
+    },
+    postClaimSummaryFailure: (state, action) => {
+      state.loading = false;
+      state.errorMessage = action.payload;
+    },
+    postRelevantSourceStart: (state) => {
+      state.loading = true;
+    },
+    postRelevantSourceSuccess: (state) => {
+      state.loading = false;
+    },
+    postRelevantSourceFailure: (state, action) => {
+      state.loading = false;
+      state.errorMessage = action.payload;
+    }
+
   },
 });
 
-export const { toggleHotCount, toggleBookmarkCount, getArticlesStart, getArticlesSuccess, getArticlesFailure, getArticle, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure } = articleSlice.actions;
+export const { toggleHotCount, toggleBookmarkCount, getArticlesStart, getArticlesSuccess, getArticlesFailure, getArticle, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure, postClaimSummaryStart, postClaimSummarySuccess, postClaimSummaryFailure, postRelevantSourceStart, postRelevantSourceSuccess, postRelevantSourceFailure } = articleSlice.actions;
 
 
 export const articlesArrSelector = (state: RootState) => state.articles.articlesArr;
@@ -138,12 +122,13 @@ export const articlesLoadingSelector = (state: RootState) => state.articles.load
 export const articleSelector = (state: RootState) => state.articles.article;
 export const claimSelector = (state: RootState) => state.articles.claim;
 export const errorMessageSelector = (state: RootState) => state.articles.errorMessage;
-export const claimReviewJobTitlesSelector = (state: RootState) => state.articles.claim.Infos[0].JobTitles;
+export const claimResourceSelector = (state: RootState) => state.articles.claim.Resources;
+export const claimSummarySelector = (state: RootState) => state.articles.claim.Summaries;
 export const filterAndSortOptionsSelector = (state: RootState) => {
 
   return {
     sortOptions: state.articles.sortOptions,
-    filterOptions:  state.articles.filterOptions
+    filterOptions: state.articles.filterOptions
   }
 }
 

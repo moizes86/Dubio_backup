@@ -2,33 +2,27 @@ import React from "react";
 import "./relevant-sources.scss";
 import { Collapse } from "antd";
 import DubioFormCard from "../DubioFormCard/DubioFormCard";
-import CollapsibleHeader from "../collapsible-header/collapsible-header";
 import PlusSign from "../plus-sign/plus-sign";
 import ModalAdd from "../modal-add/modal-add";
+import CarretVoteUpDown from "../caret-vote-up-down/caret-vote-up-down";
+
+//REDUX
+import {
+  claimResourceSelector,
+  claimSelector,
+} from "../../redux/Slices/ArticleSlice";
+import { useSelector } from "react-redux";
+
 const { Panel } = Collapse;
 
 export default function RelevantSourcesList() {
   const plusSignComponent = React.createElement(PlusSign, {
     customClassName: "relevat-source-component",
   });
-  const claimHeaderComponent1 = React.createElement(CollapsibleHeader, {
-    title: "Intreview: Donald Trump On The Haward Stern Show",
-    dates: ["12 September 2002"],
-    rate: 2,
-  });
 
-  const claimHeaderComponent2 = React.createElement(CollapsibleHeader, {
-    title: "Intreview: Donald Trump On Fox Business",
-    dates: ["15 December 2003"],
-    rate: 4,
-  });
+  const resources = useSelector(claimResourceSelector);
+  const { Claim } = useSelector(claimSelector);
 
-  const claimHeaderComponentsArr = [
-    claimHeaderComponent1,
-    claimHeaderComponent2,
-    claimHeaderComponent1,
-    claimHeaderComponent2,
-  ];
   return (
     <div className="relevant-sources">
       <DubioFormCard
@@ -39,31 +33,36 @@ export default function RelevantSourcesList() {
         <Collapse
           expandIconPosition="right"
           className="relevant-source-collapse"
-          defaultActiveKey={["0-Intreview: Donald Trump On The Haward Stern Show"]}
+          defaultActiveKey={[
+            "0-Intreview: Donald Trump On The Haward Stern Show",
+          ]}
         >
-          {claimHeaderComponentsArr.map((component: any, i: number) => (
+          {resources.map((resource: any, i: number) => (
             <Panel
-            header={component}
-            // extra={plusSignComponent}
-            className="relevant-source-panel"
-            key={`${i}-${component.props.title}`}
+              header={
+                <div className="resource-header">
+                  <div className="left-block">
+                    <CarretVoteUpDown votes={resource.Votes} />
+                    <h3>{resource.Title}</h3>
+                  </div>
+                  <span>{resource.Date.slice(0, 10)}</span>
+                </div>
+              }
+              // extra={plusSignComponent}
+              className="relevant-source-panel"
+              key={`${i}-${resource.Title}`}
             >
               <div className="source-content">
                 <span className="source-content-header-guide">
                   Explain why this source is relevant
                 </span>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Error
-                  corporis voluptatum enim dolore vitae alias dicta dolorum
-                  tempore quam esse atque, cumque voluptas deleniti accusamus
-                  nisi libero distinctio. Eos, tenetur.
-                </p>
+                <p>{resource.Comment}</p>
               </div>
             </Panel>
           ))}
         </Collapse>
       </DubioFormCard>
-      <ModalAdd title={'Add Relevant Source'}/>
+      <ModalAdd title={"Add Relevant Source"} type={'relevant-source'} claimId={Claim.ClaimId}/>
     </div>
   );
 }

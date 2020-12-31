@@ -52,7 +52,6 @@ export default function ClaimReview() {
           <ClaimReviewItem {...claim.Claim} />
           <ClaimSummary
             claimId={claim.Claim.ClaimId}
-            summaries={claim.Summaries}
           />
           <ClaimDetailsForm />
           <RelevantSourcesList />

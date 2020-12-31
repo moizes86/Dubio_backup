@@ -1,11 +1,11 @@
-import { getArticlesStart, getArticlesSuccess, getArticlesFailure, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure } from './ArticleSlice';
+import { getArticlesStart, getArticlesSuccess, getArticlesFailure, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure, postClaimSummaryStart, postClaimSummarySuccess, postClaimSummaryFailure, postRelevantSourceStart, postRelevantSourceSuccess, postRelevantSourceFailure } from './ArticleSlice';
 
-import { getArticlesAsync, getClaimReviewAsync } from '../../services/APIServices/ArticlesApi';
+import { getArticlesAsync, getClaimReviewAsync, postClaimSummaryAsync, postRelevantSourceAsync } from '../../services/APIServices/ArticlesApi';
 import { AppThunk } from '../store';
 
-import {IArticleFilter} from '../../Interfaces/IArticleFilter'
+import { IArticleFilter } from '../../Interfaces/IArticleFilter'
 
-import {IServerSelectOption, ISelectOption} from '../../Interfaces/ISelectOption'
+import { IServerSelectOption, ISelectOption } from '../../Interfaces/ISelectOption'
 
 export function findArticle(articlesArr: any, { type, data }: any) {
     switch (type) {
@@ -39,39 +39,39 @@ function checkLocalStorage(data: string) {
 interface IGetArticlesBody {
     PageSize: number;
     PageNumber?: number;
-    Tags?: {Name: string; Value: string}[];
+    Tags?: { Name: string; Value: string }[];
     SearchText?: string
 }
 
-export const getArticles = (filter?: any, searchText?: string   ): AppThunk => async (dispatch) => {
+export const getArticles = (filter?: any, searchText?: string): AppThunk => async (dispatch) => {
     const dataType = "Articles";
     // const articlesInStorage = checkLocalStorage(dataType);
     // if (!articlesInStorage) {
-        const url = `https://api.dubioo.com/api/Page/Dashboard`;
-        const body: IGetArticlesBody = { 
-            PageSize: 10
-        }
-        if(filter){
-            let TagsArray: {Name: string, Value: string}[] = []
-           Object.keys(filter).forEach((propertyName: string, index: number , filterArray: any): void => {
-               if(filter[propertyName]){
-                   TagsArray.push({Name: propertyName.charAt(0).toUpperCase() + propertyName.slice(1), Value: filter[propertyName]})
-               }
-            });
-            body.Tags = TagsArray;
-        }
-        if(searchText){
-            body.SearchText = searchText 
-        }
+    const url = `https://api.dubioo.com/api/Page/Dashboard`;
+    const body: IGetArticlesBody = {
+        PageSize: 10
+    }
+    if (filter) {
+        let TagsArray: { Name: string, Value: string }[] = []
+        Object.keys(filter).forEach((propertyName: string, index: number, filterArray: any): void => {
+            if (filter[propertyName]) {
+                TagsArray.push({ Name: propertyName.charAt(0).toUpperCase() + propertyName.slice(1), Value: filter[propertyName] })
+            }
+        });
+        body.Tags = TagsArray;
+    }
+    if (searchText) {
+        body.SearchText = searchText
+    }
 
-        try {
-            dispatch(getArticlesStart());
-            const result = await getArticlesAsync(url, body);
-            dispatch(getArticlesSuccess(result.data));
-            setDataInLocalStorage(dataType, result);
-        } catch (error) {
-            dispatch(getArticlesFailure(error))
-        }
+    try {
+        dispatch(getArticlesStart());
+        const result = await getArticlesAsync(url, body);
+        dispatch(getArticlesSuccess(result.data));
+        setDataInLocalStorage(dataType, result);
+    } catch (error) {
+        dispatch(getArticlesFailure(error))
+    }
 
     // } else {
     //     getDataFromLocalStorage(dispatch, dataType);
@@ -80,7 +80,6 @@ export const getArticles = (filter?: any, searchText?: string   ): AppThunk => a
 
 export const getClaimReview = (claimId: any): AppThunk => async (dispatch) => {
     const dataType = "Claim-Review"
-    // const claimInStorage = checkLocalStorage(dataType);
     const claimInStorage = false;
     if (!claimInStorage) {
         const url = `https://api.dubioo.com/api/ClaimReview/${claimId}`;
@@ -101,14 +100,36 @@ export const getClaimReview = (claimId: any): AppThunk => async (dispatch) => {
     }
 };
 
-export const serverOptionsToAntOptions =(serverOptions: IServerSelectOption[]): ISelectOption[]=>{
+export const postClaimSummary = (claimId: number, summary: string): AppThunk => async (dispatch) => {
+    dispatch(postClaimSummaryStart());
+    try {
+        let result = await postClaimSummaryAsync(`https://api.dubioo.com/api/ClaimReview/${claimId}/Summary`, summary);
+        dispatch(postClaimSummarySuccess())
+
+    } catch (error) {
+        dispatch(postClaimSummaryFailure(error.message))
+    }
+}
+
+export const postRelevantSource = (claimId: number, source: string, comment: string): AppThunk => async (dispatch) => {
+    dispatch(postRelevantSourceStart());
+    try {
+        let result = await postRelevantSourceAsync(`https://api.dubioo.com/api/ClaimReview/${claimId}/Resource`, source, comment);
+        dispatch(postRelevantSourceSuccess())
+
+    } catch (error) {
+        dispatch(postRelevantSourceFailure(error.message))
+    }
+}
+
+export const serverOptionsToAntOptions = (serverOptions: IServerSelectOption[]): ISelectOption[] => {
     console.log("serverOptions:", serverOptions);
-    
-    return serverOptions.map((option: IServerSelectOption)=>{
+
+    return serverOptions.map((option: IServerSelectOption) => {
         return {
             label: option.Value,
             value: option.Value
         }
-        
+
     })
-}
+};
