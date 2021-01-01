@@ -1,30 +1,30 @@
 import React, { useEffect } from "react";
 
 //STYLES AND COMPONENTS
-import "./claim-review.scss";
+import "./claim-review.page.scss";
 import { Skeleton } from "antd";
 import ClaimSummary from "../../components/claim-summary/claim-summary";
 import ClaimDetailsForm from "../../components/claim-details-container/claim-details-container";
 import RelevantSourcesList from "../../components/relevant-sources/relevant-sources";
 import PageHeader from "../../components/PageHeader/PageHeader";
-import ClaimReviewItem from '../../components/claim-review-item/claim-review-item';
+import ClaimReviewItem from "../../components/claim-review-item/claim-review-item";
 
 //ROUTING
 import { useParams } from "react-router-dom";
 //REDUX
 
 import { useDispatch, useSelector } from "react-redux";
-import { getClaimReview } from "../../redux/Slices/article-slice.utils";
+import { getClaimReview } from "../../redux/Slices/claim-review-slice.utils";
 import {
   claimSelector,
-  articlesLoadingSelector,
   errorMessageSelector,
-} from "../../redux/Slices/ArticleSlice";
+  claimLoadingSelector,
+} from "../../redux/Slices/claim-review-slice";
 
 export default function ClaimReview() {
   const { claimId }: any = useParams();
   const claim = useSelector(claimSelector);
-  const loading = useSelector(articlesLoadingSelector);
+  const loading = useSelector(claimLoadingSelector);
   const errorMessage = useSelector(errorMessageSelector);
 
   const dispatch = useDispatch();
@@ -49,10 +49,8 @@ export default function ClaimReview() {
         </>
       ) : claim ? (
         <>
-          <ClaimReviewItem {...claim.Claim} />
-          <ClaimSummary
-            claimId={claim.Claim.ClaimId}
-          />
+          <ClaimReviewItem {...claim} />
+          <ClaimSummary claimId={claim.ClaimId} />
           <ClaimDetailsForm />
           <RelevantSourcesList />
         </>

@@ -10,8 +10,8 @@ interface IArticlesInitialState {
   articlesArr: any;
   filteredArticlesArr: any;
   article: any;
-  claimsArr: any;
-  claim: any;
+  // claimsArr: any;
+  // claim: any;
   loading: boolean;
   errorMessage: any;
   filterOptions: {
@@ -31,11 +31,11 @@ let initialState: IArticlesInitialState = {
     topic: []
   },
   sortOptions: [],
-  claimsArr: [],
+  // claimsArr: [],
   loading: false,
   errorMessage: '',
   article: null,
-  claim: null,
+  // claim: null,
 }
 
 const articleSlice = createSlice({
@@ -79,51 +79,51 @@ const articleSlice = createSlice({
       return state;
     },
 
-    getClaimReviewStart: state => {
-      state.loading = true;
-    },
-    getClaimReviewSuccess: (state, action: any) => {
-      state.loading = false;
-      state.claim = action.payload;
-    },
-    getClaimReviewFailure: (state, action: any) => {
-      state.loading = false;
-      state.errorMessage = action.payload;
-    },
-    postClaimSummaryStart: (state) => {
-      state.loading = true;
-    },
-    postClaimSummarySuccess: (state) => {
-      state.loading = false;
-    },
-    postClaimSummaryFailure: (state, action) => {
-      state.loading = false;
-      state.errorMessage = action.payload;
-    },
-    postRelevantSourceStart: (state) => {
-      state.loading = true;
-    },
-    postRelevantSourceSuccess: (state) => {
-      state.loading = false;
-    },
-    postRelevantSourceFailure: (state, action) => {
-      state.loading = false;
-      state.errorMessage = action.payload;
-    }
+    // getClaimReviewStart: state => {
+    //   state.loading = true;
+    // },
+    // getClaimReviewSuccess: (state, action: any) => {
+    //   state.loading = false;
+    //   state.claim = action.payload;
+    // },
+    // getClaimReviewFailure: (state, action: any) => {
+    //   state.loading = false;
+    //   state.errorMessage = action.payload;
+    // },
+    // postClaimSummaryStart: (state) => {
+    //   state.loading = true;
+    // },
+    // postClaimSummarySuccess: (state) => {
+    //   state.loading = false;
+    // },
+    // postClaimSummaryFailure: (state, action) => {
+    //   state.loading = false;
+    //   state.errorMessage = action.payload;
+    // },
+    // postRelevantSourceStart: (state) => {
+    //   state.loading = true;
+    // },
+    // postRelevantSourceSuccess: (state) => {
+    //   state.loading = false;
+    // },
+    // postRelevantSourceFailure: (state, action) => {
+    //   state.loading = false;
+    //   state.errorMessage = action.payload;
+    // }
 
   },
 });
 
-export const { toggleHotCount, toggleBookmarkCount, getArticlesStart, getArticlesSuccess, getArticlesFailure, getArticle, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure, postClaimSummaryStart, postClaimSummarySuccess, postClaimSummaryFailure, postRelevantSourceStart, postRelevantSourceSuccess, postRelevantSourceFailure } = articleSlice.actions;
+export const { toggleHotCount, toggleBookmarkCount, getArticlesStart, getArticlesSuccess, getArticlesFailure, getArticle, /*getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure, postClaimSummaryStart, postClaimSummarySuccess, postClaimSummaryFailure, postRelevantSourceStart, postRelevantSourceSuccess, postRelevantSourceFailure*/ } = articleSlice.actions;
 
 
 export const articlesArrSelector = (state: RootState) => state.articles.articlesArr;
 export const articlesLoadingSelector = (state: RootState) => state.articles.loading;
 export const articleSelector = (state: RootState) => state.articles.article;
-export const claimSelector = (state: RootState) => state.articles.claim;
-export const errorMessageSelector = (state: RootState) => state.articles.errorMessage;
-export const claimResourceSelector = (state: RootState) => state.articles.claim.Resources;
-export const claimSummarySelector = (state: RootState) => state.articles.claim.Summaries;
+// export const claimSelector = (state: RootState) => state.articles.claim;
+// export const errorMessageSelector = (state: RootState) => state.articles.errorMessage;
+// export const claimResourceSelector = (state: RootState) => state.articles.claim.Resources;
+// export const claimSummarySelector = (state: RootState) => state.articles.claim.Summaries;
 export const filterAndSortOptionsSelector = (state: RootState) => {
 
   return {

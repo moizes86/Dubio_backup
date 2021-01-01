@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom';
-import ClaimReview from './pages/claim-review/claim-review';
+import ClaimReview from './pages/claim-review/claim-review.page';
 import LoginPage from './pages/LoginPage/LoginPage';
 import AppLayout from './components/AppLayout/AppLayout';
 import ArticlesDashboard from './pages/articles-dashboard/articles-dashboard';

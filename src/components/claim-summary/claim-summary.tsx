@@ -3,11 +3,11 @@ import "./claim-summary.scss";
 
 //Redux
 import { useSelector } from 'react-redux';
-import { claimSummarySelector } from '../../redux/Slices/ArticleSlice';
+import { claimSummarySelector } from '../../redux/Slices/claim-review-slice';
 
 //Components
 import ModalAdd from "../modal-add/modal-add";
-import ClaimItem from "../claim-item/claim-item";
+import ClaimSummaryItem from "../claim-summary-item/claim-summary-item";
 import DubioFormCard from "../DubioFormCard/DubioFormCard";
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -26,7 +26,7 @@ export default function ClaimSummary({claimId}:any) {
       >
         <div className="claim-summary-content">
           {summaries.map((summary: any, idx: any) => (
-            <ClaimItem
+            <ClaimSummaryItem
               key={`${idx}-${summary.Title}`}
               text={summary.Title}
               numberOfLikes={summary.Votes}

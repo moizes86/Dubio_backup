@@ -13,11 +13,11 @@ export default function ClaimDetailsContainer() {
         submitButtonText="Add new"
       >
         {/* <div className="claim-details"> */}
-        <div className="">
+        {/* <div className="">
           <ClaimDetails id="1" />
           <ClaimDetails id="2" />
           <ClaimDetails id="3" />
-        </div>
+        </div> */}
       </DubioFormCard>
       <ModalAdd title="Who Made The Claim, Where And When?" type={"summary"} />
     </div>

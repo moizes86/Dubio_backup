@@ -10,7 +10,7 @@ import CarretVoteUpDown from "../caret-vote-up-down/caret-vote-up-down";
 import {
   claimResourceSelector,
   claimSelector,
-} from "../../redux/Slices/ArticleSlice";
+} from "../../redux/Slices/claim-review-slice";
 import { useSelector } from "react-redux";
 
 const { Panel } = Collapse;
@@ -21,7 +21,7 @@ export default function RelevantSourcesList() {
   });
 
   const resources = useSelector(claimResourceSelector);
-  const { Claim } = useSelector(claimSelector);
+  const { ClaimId } = useSelector(claimSelector);
 
   return (
     <div className="relevant-sources">
@@ -62,7 +62,7 @@ export default function RelevantSourcesList() {
           ))}
         </Collapse>
       </DubioFormCard>
-      <ModalAdd title={"Add Relevant Source"} type={'relevant-source'} claimId={Claim.ClaimId}/>
+      <ModalAdd title={"Add Relevant Source"} type={'relevant-source'} claimId={ClaimId}/>
     </div>
   );
 }

@@ -5,13 +5,12 @@ import "./modal-add.scss";
 import {
   postClaimSummary,
   postRelevantSource,
-} from "../../redux/Slices/article-slice.utils";
+} from "../../redux/Slices/claim-review-slice.utils";
 
 const ModalAdd = ({ title, type, claimId }: any) => {
   const [visible, setVisible] = React.useState(false);
   const [modalText, setModalText] = React.useState("");
   const [modalTitle, setModalTitle] = React.useState("");
-  console.log("TYPE  ", type);
   const dispatch = useDispatch();
   const showModal = () => {
     setVisible(true);

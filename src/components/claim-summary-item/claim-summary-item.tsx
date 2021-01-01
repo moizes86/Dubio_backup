@@ -1,14 +1,14 @@
 import React from 'react';
 import { CaretUpFilled, CaretDownFilled } from '@ant-design/icons';
-import './claim-item.scss';
+import './claim-summary-item.scss';
 
-interface IClaimItem {
+interface IClaimSummaryItem {
   text: string;
   numberOfLikes: number;
   claimId: number;
 }
 
-export default function ClaimItem({ text, numberOfLikes, claimId }: IClaimItem) {
+export default function ClaimSummaryItem({ text, numberOfLikes, claimId }: IClaimSummaryItem) {
   function claimVoteUp(){
     console.log(claimId);
   }
