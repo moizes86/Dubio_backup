@@ -12,4 +12,24 @@
     margin-top: -10px;
     margin-bottom: -8px;
   }
+
+  .ant-collapse {
+    border: none;
+
+    // &>.ant-collapse-item{
+    //   margin-bottom: 50px;
+    // }
+
+    .custom-header > .ant-collapse-header {
+      background-color: rgb(97, 93, 250);
+      color: white !important;
+      font-weight: 600;
+    }
+
+    #summary-header {
+      .ant-collapse-header {
+        border-radius: 12px 12px 0px 0px;
+      }
+    }
+  }
 }

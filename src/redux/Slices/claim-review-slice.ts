@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from '../rootReducer';
-
-
+import { createSelector } from 'reselect';
+import { getClaimReview } from "./claim-review-slice.utils";
 
 interface IArticlesInitialState {
     Claim: any;
@@ -25,14 +25,18 @@ const claimReviewSlice = createSlice({
     name: "claimReview",
     initialState,
     reducers: {
+        asyncActionStart: state => {
+            state.loading = true;
+        },
+        asyncActionFailure: (state, action: any) => {
+            state.loading = false;
+            state.errorMessage = action.payload;
+        },
         toggleHotCount: (state, action) => {
             return state;
         },
         toggleBookmarkCount: (state, action) => {
             return state;
-        },
-        getClaimReviewStart: state => {
-            state.loading = true;
         },
         getClaimReviewSuccess: (state, action: any) => {
             state.loading = false;
@@ -41,41 +45,30 @@ const claimReviewSlice = createSlice({
             state.Resources = action.payload.Resources;
             state.Infos = action.payload.Infos;
         },
-        getClaimReviewFailure: (state, action: any) => {
-            state.loading = false;
-            state.errorMessage = action.payload;
-        },
-        postClaimSummaryStart: (state) => {
-            state.loading = true;
-        },
+        // postClaimSummarySuccess: (state) => {
+        //     state.loading = false;
+        // },
         postClaimSummarySuccess: (state) => {
             state.loading = false;
-        },
-        postClaimSummaryFailure: (state, action) => {
-            state.loading = false;
-            state.errorMessage = action.payload;
-        },
-        postRelevantSourceStart: (state) => {
-            state.loading = true;
         },
         postRelevantSourceSuccess: (state) => {
             state.loading = false;
         },
-        postRelevantSourceFailure: (state, action) => {
+        postJobTitleSuccess: (state) => {
             state.loading = false;
-            state.errorMessage = action.payload;
-        }
-
+        },
     },
 });
 
-export const { toggleHotCount, toggleBookmarkCount, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure, postClaimSummaryStart, postClaimSummarySuccess, postClaimSummaryFailure, postRelevantSourceStart, postRelevantSourceSuccess, postRelevantSourceFailure } = claimReviewSlice.actions;
+export const { asyncActionStart, asyncActionFailure, toggleHotCount, toggleBookmarkCount, getClaimReviewSuccess, postClaimSummarySuccess, postRelevantSourceSuccess, postJobTitleSuccess } = claimReviewSlice.actions;
 
 
 export const claimSelector = (state: RootState) => state.claimReview.Claim;
 export const claimLoadingSelector = (state: RootState) => state.claimReview.loading;
 export const errorMessageSelector = (state: RootState) => state.claimReview.errorMessage;
 export const claimResourceSelector = (state: RootState) => state.claimReview.Resources;
+export const claimReviewInfosSelector = (state: RootState) => state.claimReview.Infos;
 export const claimSummarySelector = (state: RootState) => state.claimReview.Summaries;
+
 
 export default claimReviewSlice.reducer;
