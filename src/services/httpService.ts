@@ -7,16 +7,16 @@ export const httpService = (
   Request: any,
   includeToken: boolean = true,
 ) => {
-  const accessToken = localStorage.getItem("access-token"); 
-  // const lastLogin = localStorage.getItem("last-login"); 
-  // if(lastLogin && Date.now() - +lastLogin > 5*60*1000 )
+  
+  const data  = Request;
+  if(includeToken){
+    const accessToken = localStorage.getItem("access-token"); 
+    data.AccessToken = accessToken;
+  }
   return axios({
     method: method,
     url: url,
-   data: {
-     ...Request,
-     LoginToken: accessToken
-    },
+    data,
 
   })
 };

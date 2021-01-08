@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PageHeader from "../../components/PageHeader/PageHeader";
-// import { getSettings } from "../../redux/Slices/SettingsSlice";
 import { getArticles } from "../../redux/Slices/article-slice.utils";
 import SuspiciousClaimsFilter from "../../components/suspicious-claims-filter/suspicious-claims-filter";
 import ArticlesList from "./article-list/articles-list";
 
 export default function ArticlesDashboard() {
   const dispatch = useDispatch();
-  // dispatch(getSettings());
 
   useEffect(() => {
     dispatch(getArticles());

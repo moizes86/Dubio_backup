@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import 'antd/dist/antd.css';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import ClaimReview from './pages/claim-review/claim-review';
 import LoginPage from './pages/LoginPage/LoginPage';
 import AppLayout from './components/AppLayout/AppLayout';
 import ArticlesDashboard from './pages/articles-dashboard/articles-dashboard';
+import { useDispatch } from 'react-redux';
+import { refreshLoginThunk } from './redux/Slices/UserSlice';
 
 function App() {
+  const dispatch = useDispatch();
+useEffect(() => {
+  dispatch(refreshLoginThunk())
+
+}, [])
+
   return (
     <Router basename="/">
       <Switch>

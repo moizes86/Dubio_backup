@@ -8,52 +8,9 @@ import DubioSelectInput from "../DubioSelectInput/DubioSelectInput";
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
 import { getArticles } from "../../redux/Slices/article-slice.utils";
-import { filterAndSortOptionsSelector } from "../../redux/Slices/ArticleSlice";
+import { filterAndSortOptionsSelector, articlesLoadingSelector, setFiltersInStore } from "../../redux/Slices/ArticleSlice";
 // import { filterArticles } from "../../redux/Slices/ArticleSlice";
 
-interface IOption {
-  label: string;
-  value: string;
-}
-
-const regionOptions: IOption[] = [
-  { label: "Worldwide", value: "Worldwide" },
-  { label: "Europe", value: "Europe" },
-  { label: "Asia", value: "Asia" },
-  { label: "Africa", value: "Africa" },
-  { label: "Australia", value: "Australia" },
-  { label: "North America", value: "North America" },
-  { label: "South America", value: "South America" },
-];
-const topicOptions: IOption[] = [
-  { label: "All Topics", value: "All Topics" },
-  { label: "Weather", value: "Weather" },
-  { label: "Crime", value: "Crime" },
-  { label: "Community", value: "Community" },
-  { label: "Sports", value: "Sports" },
-  { label: "Health", value: "Health" },
-  { label: "Politics", value: "Politics" },
-  { label: "Local governments", value: "Local governments" },
-  { label: "Science/Technology", value: "Science/Technology" },
-  { label: "Business/Finance", value: "Business/Finance" },
-];
-
-const languageOptions: IOption[] = [
-  { label: "All Languages", value: "All Languages" },
-  { label: "Arabic", value: "Arabic" },
-  { label: "Chinese", value: "Chinese" },
-  { label: "English", value: "English" },
-  { label: "German", value: "German" },
-  { label: "Italian", value: "Italian" },
-  { label: "Russian", value: "Russian" },
-  { label: "Spanish", value: "Spanish" },
-];
-const orderByOptions: IOption[] = [
-  { label: "Magic", value: "Magic" },
-  { label: "Newest", value: "Newest" },
-  { label: "Most Ranked", value: "Most Ranked" },
-  { label: "Most", value: "Saved" },
-];
 
 export default function SuspiciousClaimsFilter() {
   const dispatch = useDispatch();
@@ -62,51 +19,60 @@ export default function SuspiciousClaimsFilter() {
     region: "",
     topic: "",
     language: "",
-    // OrderBy: "Magic",
   });
+  const [sortBy, setSortBy] = useState("Magic");
 
 
   const filterAndSortOptions = useSelector(filterAndSortOptionsSelector);
+  const isArticlesLoading = useSelector(articlesLoadingSelector);
   const handleChange = (
     value: string,
     filterProperty: "region" | "topic" | "language" 
   ) => {
-
-
     setFilter({ ...filter,[filterProperty]: value});
   };
 
   const handleSubmit = () => {
-    dispatch(getArticles(filter, searchValue));
+    dispatch(setFiltersInStore({filterObject: filter , sortBy, searchValue}))
+
+    dispatch(getArticles());
   };
+
+  const {regions, topics, languages} = filterAndSortOptions.filterOptions;
   return (
     <DubioCard id="card-filter-claims">
       <div className="suspicious-claims-filter">
         <DubioSelectInput
           label="Filter by region"
           onChange={(value) => handleChange(value, "region")}
-          options={filterAndSortOptions.filterOptions.region}
+          options={regions}
           value={filter.region}
+          placeholder="Select Region"
+          disabled={!regions.length}
         />
         <DubioSelectInput
           label="Filter by topic"
           onChange={(value) => handleChange(value, "topic")}
-          options={filterAndSortOptions.filterOptions.topic}
+          options={topics}
           value={filter.topic}
+          placeholder="Select Topic"
+          disabled={!topics.length}
         />
         <DubioSelectInput
           label="Filter by language"
           onChange={(value) => handleChange(value, "language")}
-          options={filterAndSortOptions.filterOptions.language}
+          options={languages}
           value={filter.language}
+          placeholder="Select Language"
+          disabled={!languages.length}
         />
-        {/* <DubioSelectInput
+        <DubioSelectInput
           defaultValue="Magic"
           label="Order by"
-          // onChange={(value) => handleChange(value, "OrderBy")}
+          onChange={(value) => setSortBy(value)}
           options={filterAndSortOptions.sortOptions}
-          value={filter.OrderBy}
-        /> */}
+          value={sortBy}
+        />
         <DubioSearchInput
           onChange={(ev) => setSearchValue(ev.target.value)}
           value={searchValue}
@@ -117,6 +83,7 @@ export default function SuspiciousClaimsFilter() {
           className="filter-claims-button"
           type="primary"
           onClick={handleSubmit}
+          disabled={isArticlesLoading}
         >
           Filter Articles
         </Button>

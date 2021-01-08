@@ -8,8 +8,8 @@ export const httpGet = async (
   return await httpService('get', url, Request, includeToken);
 };
 
-export const httpPut = (url: string, Request: any) => {
-  httpService('put', url, Request);
+export const httpPut = (url: string, Request: any, includeToken: boolean = true) => {
+  return httpService('put', url, Request, includeToken);
 };
 
 export const httpPost =  (

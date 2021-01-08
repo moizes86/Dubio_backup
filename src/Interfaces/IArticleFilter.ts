@@ -3,3 +3,5 @@ export interface IArticleFilter {
     topic: string;
     language: string;
 }
+
+export type filterItem = 'region'| 'topic'| 'language';

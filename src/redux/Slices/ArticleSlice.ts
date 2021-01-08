@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { IArticleFilter } from "../../Interfaces/IArticleFilter";
 import { ISelectOption } from "../../Interfaces/ISelectOption";
 import { RootState } from '../rootReducer';
 import { findArticle, serverOptionsToAntOptions } from './article-slice.utils';
@@ -13,27 +14,39 @@ interface IArticlesInitialState {
   loading: boolean;
   errorMessage: any;
   filterOptions: {
-    language:ISelectOption[],
-    region: ISelectOption[],
-    topic: ISelectOption[]
+    languages:ISelectOption[],
+    regions: ISelectOption[],
+    topics: ISelectOption[]
   };
+  filterObject: IArticleFilter;
   sortOptions: ISelectOption[];
+  sortBy: string;
+  searchValue: string;
+  pageNumber: number;
 }
 
 let initialState: IArticlesInitialState = {
   articlesArr: null,
   filteredArticlesArr: [],
   filterOptions:{
-    language:[],
-    region: [],
-    topic: []
+    languages:[],
+    regions: [],
+    topics: []
+  },
+  filterObject: {
+    region: "",
+    topic: "",
+    language: "",
   },
   sortOptions: [],
+  sortBy: "Magic",
   claimsArr: [],
   loading: false,
   errorMessage: '',
   article: null,
   claim: null,
+  searchValue: '',
+  pageNumber: 0
 }
 
 const articleSlice = createSlice({
@@ -75,12 +88,12 @@ const articleSlice = createSlice({
       state.loading = false;
       state.articlesArr = action.payload.Articles;
       const filterOptions = {
-        language: serverOptionsToAntOptions(action.payload.Filter.Language),
-        region: serverOptionsToAntOptions(action.payload.Filter.Region),
-        topic: serverOptionsToAntOptions(action.payload.Filter.Topic),
+        languages: serverOptionsToAntOptions(action.payload.Filter.Language, "All Languages"),
+        regions: serverOptionsToAntOptions(action.payload.Filter.Region, "Worldwide" ),
+        topics: serverOptionsToAntOptions(action.payload.Filter.Topic, "All Topics"),
       };
       state.filterOptions = filterOptions;
-      state.sortOptions = serverOptionsToAntOptions(action.payload.Sort.Sort);
+      state.sortOptions = serverOptionsToAntOptions(action.payload.Sort.Sort, "Magic");
       return state;
     },
     getArticlesFailure: (state, action: any) => {
@@ -108,29 +121,36 @@ const articleSlice = createSlice({
       state.loading = false;
       state.errorMessage = action.payload;
     },
-    // filterArticles: (state, action: any) => {
-    //   const { searchValue, region, topic, language, OrederBy } = action.payload;
-    //   state.filteredArticlesArr = state.articlesArr.filter((article: any) => {
-    //     for (let key in article) {
-    //       if (
-    //         (article.Tags[0].Value == language || language == 'All Languages')
-    //         &&
-    //         (article.Tags[1].Value == region || region == 'Worldwide')
-    //         &&
-    //         (article.Tags[2].Value == topic || topic == 'All Topics')
-    //         &&
-    //         article.Title.toLowerCase().includes(searchValue.toLowerCase())
-    //       ) {
-    //         return article
-    //       }
-    //     }
-    //   }
-    //   );
-    // }
+    setFiltersInStore: (state, action: any) => {
+      state.filterObject = action.payload.filterObject;
+      state.sortBy = action.payload.sortBy;
+      state.searchValue = action.payload.searchValue; 
+    },
+    addOneToPageNumber: (state) =>{
+      console.log(' state.pageNumber:',  state.pageNumber);
+      
+      state.pageNumber = state.pageNumber + 1
+    },
+    resetPageNumber: (state) => {
+      state.pageNumber = 0;
+    }
+  
+
   },
 });
 
-export const { toggleHotCount, toggleBookmarkCount, getArticlesStart, getArticlesSuccess, getArticlesFailure, getArticle, getClaimReviewStart, getClaimReviewSuccess, getClaimReviewFailure } = articleSlice.actions;
+export const {  
+  toggleHotCount,
+  toggleBookmarkCount,
+  getArticlesStart, 
+  getArticlesSuccess, 
+  getArticlesFailure, 
+  getArticle, 
+  getClaimReviewStart, 
+  getClaimReviewSuccess, 
+  getClaimReviewFailure, 
+  setFiltersInStore, 
+  addOneToPageNumber } = articleSlice.actions;
 
 
 export const articlesArrSelector = (state: RootState) => state.articles.articlesArr;

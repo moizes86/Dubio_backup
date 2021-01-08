@@ -3,7 +3,7 @@ import { getArticlesStart, getArticlesSuccess, getArticlesFailure, getClaimRevie
 import { getArticlesAsync, getClaimReviewAsync } from '../../services/APIServices/ArticlesApi';
 import { AppThunk } from '../store';
 
-import {IArticleFilter} from '../../Interfaces/IArticleFilter'
+import {filterItem, IArticleFilter} from '../../Interfaces/IArticleFilter'
 
 import {IServerSelectOption, ISelectOption} from '../../Interfaces/ISelectOption'
 
@@ -40,35 +40,44 @@ interface IGetArticlesBody {
     PageSize: number;
     PageNumber?: number;
     Tags?: {Name: string; Value: string}[];
-    SearchText?: string
+    SearchText?: string;
+    SortBy?: string;
 }
 
-export const getArticles = (filter?: any, searchText?: string   ): AppThunk => async (dispatch) => {
-    const dataType = "Articles";
-    // const articlesInStorage = checkLocalStorage(dataType);
-    // if (!articlesInStorage) {
+export const getArticles = (): AppThunk => async (dispatch, getState) => {
+
         const url = `https://api.dubioo.com/api/Page/Dashboard`;
         const body: IGetArticlesBody = { 
             PageSize: 10
         }
-        if(filter){
+
+        // Create the tags array for the server request 
+        const state = getState();
+        const {filterObject, sortBy, searchValue, pageNumber} = state.articles;
+        if(filterObject){
             let TagsArray: {Name: string, Value: string}[] = []
-           Object.keys(filter).forEach((propertyName: string, index: number , filterArray: any): void => {
-               if(filter[propertyName]){
-                   TagsArray.push({Name: propertyName.charAt(0).toUpperCase() + propertyName.slice(1), Value: filter[propertyName]})
+           Object.keys(filterObject).forEach((propertyName): void => {
+               if(filterObject[propertyName as filterItem]){
+                   TagsArray.push({Name: propertyName.charAt(0).toUpperCase() + propertyName.slice(1), Value: filterObject[propertyName as filterItem]})
                }
             });
+
             body.Tags = TagsArray;
         }
-        if(searchText){
-            body.SearchText = searchText 
+        if(sortBy){
+            body.SortBy = sortBy; 
         }
+        if(searchValue){
+            body.SearchText = searchValue;
+        }
+        // if(pageNumber){
+        //     body.PageNumber = pageNumber;
+        // }
 
         try {
             dispatch(getArticlesStart());
             const result = await getArticlesAsync(url, body);
             dispatch(getArticlesSuccess(result.data));
-            setDataInLocalStorage(dataType, result);
         } catch (error) {
             dispatch(getArticlesFailure(error))
         }
@@ -101,14 +110,21 @@ export const getClaimReview = (claimId: any): AppThunk => async (dispatch) => {
     }
 };
 
-export const serverOptionsToAntOptions =(serverOptions: IServerSelectOption[]): ISelectOption[]=>{
+export const serverOptionsToAntOptions = (serverOptions: IServerSelectOption[], selectAllOptionName?: string  ): ISelectOption[]=>{
     console.log("serverOptions:", serverOptions);
-    
-    return serverOptions.map((option: IServerSelectOption)=>{
-        return {
+    let options: ISelectOption[] = []; 
+    if(selectAllOptionName){
+        options.push({
+            label: selectAllOptionName,
+            value: ""
+        });
+    };
+    serverOptions.forEach((option: IServerSelectOption)=>{
+        options.push({
             label: option.Value,
             value: option.Value
-        }
-        
-    })
+        });
+    });
+
+    return options;
 }

@@ -80,9 +80,7 @@ export default function LoginPage() {
             </Button>
           </Form.Item>
         </Form>
-        <Button size="large">
-          <Link to="/"> Enter without a user</Link>
-        </Button>
+  
       </div>
     </div>
   );

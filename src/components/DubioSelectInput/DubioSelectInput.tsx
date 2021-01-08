@@ -11,6 +11,8 @@ export default function DubioSelectInput(props: {
   defaultValue?: string;
   label: string;
   value: string;
+  placeholder?: string;
+  disabled?: boolean;
 }) {
   return (
     <div className="dubio-input-container">
