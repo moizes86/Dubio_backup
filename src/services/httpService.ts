@@ -9,15 +9,14 @@ export const httpService = (
 ) => {
   
   const data  = Request;
-  if(includeToken){
-    const accessToken = localStorage.getItem("access-token"); 
-    data.AccessToken = accessToken;
-  }
+  const accessToken = localStorage.getItem("access-token"); 
   return axios({
     method: method,
     url: url,
     data,
-
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+   },
   })
 };
 

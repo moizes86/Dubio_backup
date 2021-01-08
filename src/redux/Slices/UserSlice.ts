@@ -26,6 +26,8 @@ const userSlice = createSlice({
     loginSuccesses(state, action: PayloadAction<any>) {
       state.loading = false;
       state.isLoggedIn = !!action.payload.data;
+      state.errorMassage = '';
+
     },
     loginFailure(state) {
       state.loading = false;
@@ -67,7 +69,7 @@ export const refreshLoginThunk = (): AppThunk => async (
   dispatch
 ) =>{  
   const refreshToken = localStorage.getItem('refresh-token')?.toString();
-console.log("refreshToken:", refreshToken);
+  console.log("refreshToken:", refreshToken);
 
   if(refreshToken){
     try{
