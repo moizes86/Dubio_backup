@@ -1,6 +1,5 @@
 import React from "react";
 import "./claim-review-item.scss";
-import DubioFormCard from "../DubioFormCard/DubioFormCard";
 import TrendingCounter from "../TrendingCounter/TrendingCounter";
 import { Card } from 'antd';
 

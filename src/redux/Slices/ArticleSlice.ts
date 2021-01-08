@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from '../rootReducer';
-import { createSelector } from 'reselect'
 
 import { ISelectOption } from "../../Interfaces/ISelectOption";
 import { findArticle, serverOptionsToAntOptions } from './article-slice.utils';
@@ -10,8 +9,6 @@ interface IArticlesInitialState {
   articlesArr: any;
   filteredArticlesArr: any;
   article: any;
-  // claimsArr: any;
-  // claim: any;
   loading: boolean;
   errorMessage: any;
   filterOptions: {

@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from '../rootReducer';
-import { createSelector } from 'reselect';
-import { getClaimReview } from "./claim-review-slice.utils";
 
 interface IArticlesInitialState {
     Claim: any;
@@ -28,6 +26,9 @@ const claimReviewSlice = createSlice({
         asyncActionStart: state => {
             state.loading = true;
         },
+        asyncActionSuccess: (state) => {
+            state.loading = false;
+        },
         asyncActionFailure: (state, action: any) => {
             state.loading = false;
             state.errorMessage = action.payload;
@@ -45,9 +46,6 @@ const claimReviewSlice = createSlice({
             state.Resources = action.payload.Resources;
             state.Infos = action.payload.Infos;
         },
-        // postClaimSummarySuccess: (state) => {
-        //     state.loading = false;
-        // },
         postClaimSummarySuccess: (state) => {
             state.loading = false;
         },
@@ -60,7 +58,7 @@ const claimReviewSlice = createSlice({
     },
 });
 
-export const { asyncActionStart, asyncActionFailure, toggleHotCount, toggleBookmarkCount, getClaimReviewSuccess, postClaimSummarySuccess, postRelevantSourceSuccess, postJobTitleSuccess } = claimReviewSlice.actions;
+export const { asyncActionStart, asyncActionSuccess, asyncActionFailure, toggleHotCount, toggleBookmarkCount, getClaimReviewSuccess, postClaimSummarySuccess, postRelevantSourceSuccess, postJobTitleSuccess } = claimReviewSlice.actions;
 
 
 export const claimSelector = (state: RootState) => state.claimReview.Claim;

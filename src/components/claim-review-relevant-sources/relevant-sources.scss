@@ -79,6 +79,10 @@
     align-items: center;
     flex-wrap: wrap;
 
+    .space{
+      background-color: tomato;
+      color:blue;
+    }
     .left-block {
       display: flex;
       align-items: center;

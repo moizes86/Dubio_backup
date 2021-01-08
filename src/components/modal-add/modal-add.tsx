@@ -56,35 +56,34 @@ const ModalTextUrl = ({
         break;
       case "job-title":
         if (text) {
-          dispatch(postJobTitle(infoId, text));
+          dispatch(postJobTitle(ClaimId, infoId, text));
         }
         break;
       case "source":
         if (text && url) {
-          dispatch(postSource(infoId, { text, url }));
+          dispatch(postSource(ClaimId, infoId, { text, url }));
         }
         break;
       case "occurrence":
         if (text && date && url) {
-          dispatch(postOccurrence(infoId, { text, date, url }));
+          dispatch(postOccurrence(ClaimId,  infoId, { text, date, url }));
         }
         break;
       case "claim-info":
         if (text) {
           dispatch(postClaimInfo(ClaimId, text));
         }
+        break;
       case "resource":
         if (text && comment && date && url) {
           dispatch(postResource(ClaimId, { text, comment, date, url }));
         }
-
-      default:
         break;
     }
   };
 
   //FORM SETUP
-  const [formLayout, setFormLayout] = useState<LayoutType>("horizontal");
+  const [formLayout] = useState<LayoutType>("horizontal");
   const formItemLayout =
     formLayout === "horizontal"
       ? {
@@ -97,7 +96,7 @@ const ModalTextUrl = ({
   return (
     <>
       <div onClick={showModal}>
-        {buttonType == "btn" ? (
+        {buttonType === "btn" ? (
           <Button className="modal-add-button">Add New</Button>
         ) : (
           <PlusSign />
@@ -111,7 +110,7 @@ const ModalTextUrl = ({
         onCancel={handleCancel}
       >
         <Form {...formItemLayout} layout={formLayout}>
-          {modalType == "text" ? (
+          {modalType === "text" ? (
             // * * ONLY TEXT AREA * * //
             <textarea
               required
@@ -139,7 +138,7 @@ const ModalTextUrl = ({
 
           {modalType.includes("url") ? (
             // * * INCLUDING URL * * //
-            <Form.Item label="Url" required rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Form.Item label="Url" required>
               <Input
                 placeholder="Insert url here... "
                 onChange={(e) => setUrlText(e.target.value)}
@@ -152,7 +151,7 @@ const ModalTextUrl = ({
             <Form.Item label="Date" required>
               <DatePicker
                 onChange={(date: any, dateString: string) =>
-                  setDate(dateString.slice(0,10))
+                  setDate(dateString.slice(0, 10))
                 }
               />
             </Form.Item>

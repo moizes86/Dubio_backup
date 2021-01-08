@@ -1,16 +1,16 @@
 import { getArticlesStart, getArticlesSuccess, getArticlesFailure } from './ArticleSlice';
 
-import { getArticlesAsync, getClaimReviewAsync, postClaimSummaryAsync, postRelevantSourceAsync } from '../../services/APIServices/ArticlesApi';
+import { getArticlesAsync } from '../../services/APIServices/ArticlesApi';
 import { AppThunk } from '../store';
 
-import { IArticleFilter } from '../../Interfaces/IArticleFilter'
+// import { IArticleFilter } from '../../Interfaces/IArticleFilter'
 
 import { IServerSelectOption, ISelectOption } from '../../Interfaces/ISelectOption'
 
 export function findArticle(articlesArr: any, { type, data }: any) {
     switch (type) {
         case 'url':
-            return articlesArr.find((article: any) => article.InternalUrl == data)
+            return articlesArr.find((article: any) => article.InternalUrl === data)
     }
 };
 
@@ -21,20 +21,20 @@ function setDataInLocalStorage(dataType: string, data: any) {
     )
 };
 
-function getDataFromLocalStorage(dispatch: any, dataType: string) {
-    let data: any = window.localStorage.getItem(dataType);
-    data = JSON.parse(data);
-    dispatch(getArticlesSuccess(data));
-};
+// function getDataFromLocalStorage(dispatch: any, dataType: string) {
+//     let data: any = window.localStorage.getItem(dataType);
+//     data = JSON.parse(data);
+//     dispatch(getArticlesSuccess(data));
+// };
 
-function checkLocalStorage(data: string) {
-    const dataInStorage = window.localStorage.getItem(data);
-    return (
-        dataInStorage ?
-            true :
-            false
-    )
-};
+// function checkLocalStorage(data: string) {
+//     const dataInStorage = window.localStorage.getItem(data);
+//     return (
+//         dataInStorage ?
+//             true :
+//             false
+//     )
+// };
 
 interface IGetArticlesBody {
     PageSize: number;

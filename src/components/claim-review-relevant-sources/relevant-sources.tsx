@@ -1,8 +1,7 @@
 import React from "react";
 import "./relevant-sources.scss";
-import { Collapse } from "antd";
+import { Collapse, Space } from "antd";
 import { LinkOutlined } from "@ant-design/icons";
-import PlusSign from "../plus-sign/plus-sign";
 import ModalAdd from "../modal-add/modal-add";
 import CarretVoteUpDown from "../caret-vote-up-down/caret-vote-up-down";
 
@@ -16,16 +15,12 @@ import { useSelector } from "react-redux";
 const { Panel } = Collapse;
 
 export default function RelevantSourcesList() {
-  const plusSignComponent = React.createElement(PlusSign, {
-    customClassName: "relevat-source-component",
-  });
-
   const resources = useSelector(claimResourceSelector);
   const { ClaimId } = useSelector(claimSelector);
 
   return (
     <div className="relevant-sources">
-      <Collapse expandIconPosition="right" className="relevant-source-collapse">
+      <Collapse expandIconPosition="right" className="relevant-source-collapse" >
         {resources.map((resource: any, i: number) => (
           <Panel
             header={
