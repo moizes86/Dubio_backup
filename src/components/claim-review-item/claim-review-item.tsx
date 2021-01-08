@@ -1,7 +1,7 @@
 import React from "react";
 import "./claim-review-item.scss";
-import DubioFormCard from "../DubioFormCard/DubioFormCard";
 import TrendingCounter from "../TrendingCounter/TrendingCounter";
+import { Card } from 'antd';
 
 const ClaimReviewItem = ({
   Title,
@@ -12,7 +12,7 @@ const ClaimReviewItem = ({
 }: any) => {
   return (
     <div className="claim-review-item-container">
-      <DubioFormCard title={Title.toUpperCase()} submitButtonText={"foo"}>
+      <Card title={Title} >
         <div className="claim-review-item-content">
           <p>{Content}</p>
           <TrendingCounter
@@ -23,7 +23,7 @@ const ClaimReviewItem = ({
             id={ClaimId}
           />
         </div>
-      </DubioFormCard>
+      </Card>
     </div>
   );
 };

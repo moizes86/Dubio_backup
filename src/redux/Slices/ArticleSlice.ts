@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { IArticleFilter } from "../../Interfaces/IArticleFilter";
 import { ISelectOption } from "../../Interfaces/ISelectOption";
 import { RootState } from '../rootReducer';
+
 import { findArticle, serverOptionsToAntOptions } from './article-slice.utils';
 
 
@@ -54,30 +55,10 @@ const articleSlice = createSlice({
   initialState,
   reducers: {
     toggleHotCount: (state, action) => {
-      if (!action.payload) return;
-
-      // let article = findArticle(state, action);
-      // if (article.isVoted) {
-      //   article.isVoted = false;
-      //   article.HotCount--;
-      // } else {
-      //   article.isVoted = true;
-      //   article.HotCount++;
-      // }
-
       return state;
     },
     toggleBookmarkCount: (state, action) => {
-      if (!action.payload) return;
-      // let article = findArticle(state, action);
-
-      // if (article.isFavorite) {
-      //   article.isFavorite = false;
-      //   article.BookmarkCount--;
-      // } else {
-      //   article.isFavorite = true;
-      //   article.BookmarkCount++;
-      // }
+      return state;
     },
     getArticlesStart: (state) => {
       state.loading = true;
@@ -156,14 +137,15 @@ export const {
 export const articlesArrSelector = (state: RootState) => state.articles.articlesArr;
 export const articlesLoadingSelector = (state: RootState) => state.articles.loading;
 export const articleSelector = (state: RootState) => state.articles.article;
-export const claimSelector = (state: RootState) => state.articles.claim;
-export const errorMessageSelector = (state: RootState) => state.articles.errorMessage;
-export const claimReviewJobTitlesSelector = (state: RootState) => state.articles.claim.Infos[0].JobTitles;
+// export const claimSelector = (state: RootState) => state.articles.claim;
+// export const errorMessageSelector = (state: RootState) => state.articles.errorMessage;
+// export const claimResourceSelector = (state: RootState) => state.articles.claim.Resources;
+// export const claimSummarySelector = (state: RootState) => state.articles.claim.Summaries;
 export const filterAndSortOptionsSelector = (state: RootState) => {
 
   return {
     sortOptions: state.articles.sortOptions,
-    filterOptions:  state.articles.filterOptions
+    filterOptions: state.articles.filterOptions
   }
 }
 
