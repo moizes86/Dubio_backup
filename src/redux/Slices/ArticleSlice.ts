@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IArticleFilter } from "../../Interfaces/IArticleFilter";
+import { filterItem, IArticleFilter } from "../../Interfaces/IArticleFilter";
 import { ISelectOption } from "../../Interfaces/ISelectOption";
+import { getArticlesAsync, postBookmarkClaim, postVoteClaim } from "../../services/APIServices/ArticlesApi";
 import { RootState } from '../rootReducer';
+import { AppThunk } from "../store";
 
 import { findArticle, serverOptionsToAntOptions } from './article-slice.utils';
 
@@ -114,7 +116,21 @@ const articleSlice = createSlice({
     },
     resetPageNumber: (state) => {
       state.pageNumber = 0;
-    }
+    },
+    toggleClaimVote: (state, action: any)=>{
+      const { articleIndex, claimIndex} = action.payload
+      const newArticlesArr = state.articlesArr;
+      
+      newArticlesArr[articleIndex].Claims[claimIndex].IsVoted = !newArticlesArr[articleIndex].Claims[claimIndex].IsVoted;
+      state.articlesArr = newArticlesArr;
+    },
+    toggleBookmarkVote: (state, action: any)=>{
+      const { articleIndex, claimIndex} = action.payload
+      const newArticlesArr = state.articlesArr;
+      
+      newArticlesArr[articleIndex].Claims[claimIndex].IsBookmarked = !newArticlesArr[articleIndex].Claims[claimIndex].IsBookmarked;
+      state.articlesArr = newArticlesArr;
+    },
   
 
   },
@@ -131,7 +147,9 @@ export const {
   getClaimReviewSuccess, 
   getClaimReviewFailure, 
   setFiltersInStore, 
-  addOneToPageNumber } = articleSlice.actions;
+  addOneToPageNumber,
+  toggleClaimVote,
+  toggleBookmarkVote } = articleSlice.actions;
 
 
 export const articlesArrSelector = (state: RootState) => state.articles.articlesArr;
@@ -151,3 +169,83 @@ export const filterAndSortOptionsSelector = (state: RootState) => {
 
 
 export default articleSlice.reducer;
+
+
+interface IGetArticlesBody {
+  PageSize: number;
+  PageNumber?: number;
+  Tags?: {Name: string; Value: string}[];
+  SearchText?: string;
+  SortBy?: string;
+}
+
+export const getArticles = (): AppThunk => async (dispatch, getState) => {
+
+      const url = `https://api.dubioo.com/api/Page/Dashboard`;
+      const body: IGetArticlesBody = { 
+          PageSize: 10
+      }
+
+      // Create the tags array for the server request 
+      const state = getState();
+      const {filterObject, sortBy, searchValue, pageNumber} = state.articles;
+      if(filterObject){
+          let TagsArray: {Name: string, Value: string}[] = []
+         Object.keys(filterObject).forEach((propertyName): void => {
+             if(filterObject[propertyName as filterItem]){
+                 TagsArray.push({Name: propertyName.charAt(0).toUpperCase() + propertyName.slice(1), Value: filterObject[propertyName as filterItem]})
+             }
+          });
+
+          body.Tags = TagsArray;
+      }
+      if(sortBy){
+          body.SortBy = sortBy; 
+      }
+      if(searchValue){
+          body.SearchText = searchValue;
+      }
+      // if(pageNumber){
+      //     body.PageNumber = pageNumber;
+      // }
+
+      try {
+          dispatch(getArticlesStart());
+          const result = await getArticlesAsync(url, body);
+          dispatch(getArticlesSuccess(result.data));
+      } catch (error) {
+          dispatch(getArticlesFailure(error))
+      }
+
+  // } else {
+  //     getDataFromLocalStorage(dispatch, dataType);
+  // }
+};
+
+export const voteClaimThunk = (claimId: number, articleIndex: number, claimIndex: number ): AppThunk => async (dispatch, getState) => {
+  try {
+    const result = await postVoteClaim(claimId);
+    console.log("result:", result);
+    
+    if(result.status === 200){
+      dispatch(toggleClaimVote({articleIndex, claimIndex }))
+    }
+  } catch (error) {
+    
+  }
+  
+}
+
+export const bookmarkClaimThunk = (claimId: number, articleIndex: number, claimIndex: number ): AppThunk => async (dispatch, getState) => {
+  try {
+    const result = await postBookmarkClaim(claimId);
+    console.log("result:", result);
+    
+    if(result.status === 200){
+      dispatch(toggleBookmarkVote({articleIndex, claimIndex }))
+    }
+  } catch (error) {
+    
+  }
+  
+}

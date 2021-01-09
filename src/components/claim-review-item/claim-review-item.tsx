@@ -20,7 +20,6 @@ const ClaimReviewItem = ({
             isBookOn={false}
             bookCount={IsBookmarked}
             fireCount={isVoted}
-            id={ClaimId}
           />
         </div>
       </Card>

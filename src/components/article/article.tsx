@@ -9,22 +9,28 @@ import DubioCard from "../DubioCard/DubioCard";
 import TrendingCounter from "../TrendingCounter/TrendingCounter";
 import Claim from "../claim/claim";
 import { Collapse } from "antd";
+import { useDispatch } from "react-redux";
 const { Panel } = Collapse;
 const { Meta } = Card;
 
 export default function Article({
   article: {
     Title,
-    BookmarkCount,
-    HotCount,
+    Bookmarks,
+    Votes,
     ArticleId,
     InternalUrl,
     Claims,
     ImgUrl,
     Url,
     Tags,
+    
   },
+  articleIndex
 }: any) {
+  const dispatch = useDispatch();
+console.log("articleIndex:", articleIndex);
+
   return (
     <div className="article-container">
       <DubioCard>
@@ -33,40 +39,41 @@ export default function Article({
             key={`${ArticleId}-${Title}`}
             header={
               <div className="article-card-flex ">
+               
                 <div className="article-section img-title-description">
-                  <Meta
-                    avatar={
-                      <div
-                        className="img-box"
-                        style={{ backgroundImage: `url(${ImgUrl})` }}
-                      ></div>
-                    }
-                    title={Title}
-                    description={
-                      <div>
-                        {Tags.map((tag: any, idx: any) => (
-                          <span
-                            key={`${idx}-${tag.value}`}
-                          >{`${tag.Value}  `}</span>
-                        ))}
-                      </div>
-                    }
-                  />
+                  <Link to={`/Claim-Review/${InternalUrl}`} className="link">
+                      <Meta
+                        avatar={
+                          <div
+                          className="img-box"
+                          style={{ backgroundImage: `url(${ImgUrl})` }}
+                          ></div>
+                        }
+                        title={Title}
+                        description={
+                          <div>
+                            {Tags.map((tag: any, idx: any) => (
+                              <span
+                              key={`${idx}-${tag.value}`}
+                              >{`${tag.Value}${idx < Tags.length - 1? ',': '' }  `}</span>
+                              ))}
+                          </div>
+                        }
+                        />
+                  </Link>
                 </div>
 
-                <div className="article-section source-and-trending-counter">
-                    <div className="source">
-                        <a href={Url} rel='noreferrer noopener' target="_blank">Source</a>
-                        <Link to={`/Claim-Review/${InternalUrl}`} className="link">More Details</Link>
-                    </div>
+                <div className="article-section source-and-trending-counter"onClick={(ev)=> ev.stopPropagation()}>
+                  <div className="source" >
+                      <a href={Url} rel='noreferrer noopener' target="_blank">Source</a>            
+                  </div>
 
                   <div className="trending-counter">
                     <TrendingCounter
                       isFireOn={false}
                       isBookOn={false}
-                      bookCount={BookmarkCount}
-                      fireCount={HotCount}
-                      id={ArticleId}
+                      bookCount={Bookmarks}
+                      fireCount={Votes}
                     />
                   </div>
                 </div>
@@ -74,7 +81,7 @@ export default function Article({
             }
           >
             {Claims.map((claim: any, idx: any) => (
-              <Claim key={`${idx}-${ArticleId}`} {...claim} />
+              <Claim key={`${idx}-${ArticleId}`} {...claim} articleIndex={articleIndex} claimIndex={idx}/>
             ))}
           </Panel>
         </Collapse>

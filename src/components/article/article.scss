@@ -78,10 +78,6 @@
     }
 
     .source-and-trending-counter {
-      flex-basis: 25%;
-      flex-grow: 1;
-      justify-content: flex-end;
-      margin-right: -5px;
       @media screen and (max-width: 900px) {
         width: 100%;
         flex-grow: 1;
@@ -93,7 +89,8 @@
 
       .source {
         margin: auto 10px;
-        *{
+
+        * {
           display: block;
         }
         @media screen and (max-width: 900px) {

@@ -36,56 +36,7 @@ function setDataInLocalStorage(dataType: string, data: any) {
 //     )
 // };
 
-interface IGetArticlesBody {
-    PageSize: number;
-    PageNumber?: number;
-    Tags?: {Name: string; Value: string}[];
-    SearchText?: string;
-    SortBy?: string;
-}
 
-export const getArticles = (): AppThunk => async (dispatch, getState) => {
-
-        const url = `https://api.dubioo.com/api/Page/Dashboard`;
-        const body: IGetArticlesBody = { 
-            PageSize: 10
-        }
-
-        // Create the tags array for the server request 
-        const state = getState();
-        const {filterObject, sortBy, searchValue, pageNumber} = state.articles;
-        if(filterObject){
-            let TagsArray: {Name: string, Value: string}[] = []
-           Object.keys(filterObject).forEach((propertyName): void => {
-               if(filterObject[propertyName as filterItem]){
-                   TagsArray.push({Name: propertyName.charAt(0).toUpperCase() + propertyName.slice(1), Value: filterObject[propertyName as filterItem]})
-               }
-            });
-
-            body.Tags = TagsArray;
-        }
-        if(sortBy){
-            body.SortBy = sortBy; 
-        }
-        if(searchValue){
-            body.SearchText = searchValue;
-        }
-        // if(pageNumber){
-        //     body.PageNumber = pageNumber;
-        // }
-
-        try {
-            dispatch(getArticlesStart());
-            const result = await getArticlesAsync(url, body);
-            dispatch(getArticlesSuccess(result.data));
-        } catch (error) {
-            dispatch(getArticlesFailure(error))
-        }
-
-    // } else {
-    //     getDataFromLocalStorage(dispatch, dataType);
-    // }
-};
 
 // export const getClaimReview = (claimId: any): AppThunk => async (dispatch) => {
 //     const dataType = "Claim-Review"

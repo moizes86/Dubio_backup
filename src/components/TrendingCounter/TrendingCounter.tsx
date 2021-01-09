@@ -9,29 +9,26 @@ import {
 
 import "./TrendingCounter.scss";
 
-//REDUX
-import { useDispatch } from "react-redux";
-import { toggleHotCount, toggleBookmarkCount } from "../../redux/Slices/ArticleSlice";
-
 interface ITrendingCounter {
   isFireOn: boolean;
   fireCount: number;
   isBookOn: boolean;
   bookCount: number;
-  id: string;
+  onFireClick?: () => void;
+  onBookmarkClick?: () => void;
 }
 function TrendingCounter({
   isFireOn,
   fireCount,
   isBookOn,
   bookCount,
-  id,
+  onFireClick,
+  onBookmarkClick
 }: ITrendingCounter) {
-  const dispatch = useDispatch();
 
   return (
     <div className="trending-count-container">
-      <div onClick={() => dispatch(toggleHotCount(id))}>
+      <div onClick={onFireClick}>
         {isFireOn ? (
           <FireFilled className="trend-icon icon-filled" />
         ) : (
@@ -40,7 +37,7 @@ function TrendingCounter({
 
         <div className="trend-count">{fireCount}</div>
       </div>
-      <div onClick={() => dispatch(toggleBookmarkCount(id))}>
+      <div onClick={onBookmarkClick}>
         {isBookOn ? (
           <BookFilled className="trend-icon icon-filled" />
         ) : (

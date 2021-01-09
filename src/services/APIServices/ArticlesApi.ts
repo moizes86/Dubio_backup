@@ -1,5 +1,4 @@
 import { httpGet, httpPost } from '../CRUDService';
-
 export const getArticlesAsync = async (url: string, body: any) => {
     return await httpPost(url, body)
 };
@@ -37,4 +36,12 @@ export const postClaimInfoAsync = async (url: string, title: string) => {
 
 export const postSummaryVoteUpAsync = async (url: string) => {
     return await httpPost(url, false);
+};
+
+export const postVoteClaim = async (id: number) => {
+    return await httpPost(`https://api.dubioo.com/api/Claim/${id}/Vote`, false);
+};
+
+export const postBookmarkClaim = async (id: number) => {
+    return await httpPost(`https://api.dubioo.com/api/Claim/${id}/Bookmark`, false);
 };

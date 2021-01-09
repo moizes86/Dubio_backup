@@ -3,6 +3,8 @@ import "./claim.scss";
 import { Link } from "react-router-dom";
 import DubioCard from "../DubioCard/DubioCard";
 import TrendingCounter from "../TrendingCounter/TrendingCounter";
+import { useDispatch } from "react-redux";
+import { bookmarkClaimThunk, voteClaimThunk } from "../../redux/Slices/ArticleSlice";
 
 export default function Claim({
   Title,
@@ -10,8 +12,14 @@ export default function Claim({
   Bookmarks,
   Votes,
   InternalUrl,
-  ClaimId
+  ClaimId,
+  articleIndex,
+  claimIndex,
+  IsVoted,
+  IsBookmarked
 }: any) {
+  const dispatch = useDispatch();
+
   return (
     <div className="claim-container">
       <DubioCard>
@@ -23,11 +31,12 @@ export default function Claim({
         </div>
         <div className="claim-trending-counter">
           <TrendingCounter
-            isFireOn={false}
-            isBookOn={false}
+            isFireOn={IsVoted}
+            isBookOn={IsBookmarked}
             bookCount={Bookmarks}
             fireCount={Votes}
-            id={""}
+            onFireClick={()=>dispatch(voteClaimThunk(ClaimId,articleIndex, claimIndex))}
+            onBookmarkClick={()=>dispatch(bookmarkClaimThunk(ClaimId,articleIndex, claimIndex))}
           />
         </div>
       </DubioCard>

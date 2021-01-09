@@ -7,8 +7,7 @@ import DubioSelectInput from "../DubioSelectInput/DubioSelectInput";
 
 //REDUX
 import { useDispatch, useSelector } from "react-redux";
-import { getArticles } from "../../redux/Slices/article-slice.utils";
-import { filterAndSortOptionsSelector, articlesLoadingSelector, setFiltersInStore } from "../../redux/Slices/ArticleSlice";
+import { filterAndSortOptionsSelector, articlesLoadingSelector, setFiltersInStore, getArticles } from "../../redux/Slices/ArticleSlice";
 // import { filterArticles } from "../../redux/Slices/ArticleSlice";
 
 

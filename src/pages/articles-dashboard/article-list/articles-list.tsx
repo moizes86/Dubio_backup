@@ -9,7 +9,6 @@ import Article from "../../../components/article/article";
 import { Skeleton } from "antd";
 import InfiniteScroll from 'react-infinite-scroller';
 import "./articles-list.scss";
-import { getArticles } from "../../../redux/Slices/article-slice.utils";
 
 export default function ArticlesList() {
   const articles = useSelector(articlesArrSelector);
@@ -46,11 +45,14 @@ const loadingComponent = (
         >
          <div className="tracks">
 
-           {articles.map((article: any) => {
+           {articles.map((article: any, articleIndex: number) => {
+             console.log("articleIndex:", articleIndex);
+             
              return (
                <Article
-               article={article}
-               key={article.ArticleId + article.Title}
+                  article={article}
+                  key={article.ArticleId + article.Title}
+                  articleIndex={articleIndex}
                />
                );
               })}
