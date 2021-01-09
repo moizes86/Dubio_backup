@@ -11,10 +11,12 @@ import { refreshLoginThunk } from './redux/Slices/UserSlice';
 
 function App() {
   const dispatch = useDispatch();
-useEffect(() => {
-  dispatch(refreshLoginThunk())
+  
+  useEffect(() => {
 
-}, [])
+    dispatch(refreshLoginThunk())
+
+  }, [dispatch])
 
   return (
     <Router basename="/">

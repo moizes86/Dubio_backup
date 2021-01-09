@@ -1,7 +1,7 @@
 import { httpGet, httpPost } from '../CRUDService';
 
 export const getArticlesAsync = async (url: string, body: any) => {
-    return await httpPost(url, body, false)
+    return await httpPost(url, body)
 };
 
 export const getClaimReviewAsync = async (url: string) => {

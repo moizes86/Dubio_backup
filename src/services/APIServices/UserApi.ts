@@ -6,6 +6,10 @@ export const login = async (userName: string, password: string) => {
 export const refreshLogin = async (refreshToken: string) => {
   return await httpPut(`${baseUrl}/Refresh`,{
     RefreshToken: refreshToken
-  }, false);
+  });
+};
+
+export const register = async (UserName: string, Password: string, Email: string) => {
+  return await httpPost(`${baseUrl}/Register`, { UserName, Password , Email}, false);
 };
 

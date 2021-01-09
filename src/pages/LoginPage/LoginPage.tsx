@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input } from "antd";
 import "./LoginPage.scss";
 import { Link, useHistory } from "react-router-dom";
@@ -7,6 +7,8 @@ import {
   errorMassage,
   isLoggedSelector,
   loginThunk,
+  registerUserThunk,
+  registrationSuccesses,
 } from "../../redux/Slices/UserSlice";
 
 const layout = {
@@ -19,9 +21,10 @@ const tailLayout = {
 
 export default function LoginPage() {
   let history = useHistory();
-
+  const [isLogin, setIsLogin] = useState(true)
   const dispatch = useDispatch();
   const isLogged = useSelector(isLoggedSelector);
+  const isRegistrationSuccesses = useSelector(registrationSuccesses);
   const loginErrorMassage = useSelector(errorMassage);
   useEffect(() => {
 
@@ -30,9 +33,19 @@ export default function LoginPage() {
     }
   }, [isLogged, history]);
 
-  const onFinish = (values: any) => {
+  useEffect(() => {
 
-    dispatch(loginThunk(values.username, values.password));
+    if (isRegistrationSuccesses) {
+      setIsLogin(true);
+    }
+  }, [isRegistrationSuccesses]);
+
+  const onFinish = (values: any) => {
+    if(isLogin){
+      dispatch(loginThunk(values.username, values.password));
+    }else{
+      dispatch(registerUserThunk(values.username, values.password, values.email));
+    }
   };
 
   return (
@@ -68,6 +81,17 @@ export default function LoginPage() {
           >
             <Input.Password />
           </Form.Item>
+          {
+            !isLogin && (
+                    <Form.Item
+                      label="Email"
+                      name="email"
+                      rules={[{ required: !isLogin, message: "Please input your email!" }]}
+                    >
+                      <Input.Password />
+                    </Form.Item>
+            )
+          }
 
           <Form.Item {...tailLayout}>
             <Button
@@ -76,9 +100,22 @@ export default function LoginPage() {
               className="login-btn"
               size="large"
             >
-              Log in
+              {isLogin? 'Log in': 'Sign in'}
+              
             </Button>
           </Form.Item>
+          <Form.Item {...tailLayout}>
+            <Button 
+              htmlType="button" 
+              type="link"
+              size="large"  
+              className="login-btn"
+              onClick={() => setIsLogin(!isLogin)}
+            >
+              {`Go To ${!isLogin? 'Log in': 'Sign in'}`}
+
+            </Button>
+        </Form.Item>
         </Form>
   
       </div>

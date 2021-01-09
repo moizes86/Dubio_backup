@@ -14,9 +14,9 @@ export const httpService = (
     method: method,
     url: url,
     data,
-    headers: {
+    headers: includeToken? {
       'Authorization': `Bearer ${accessToken}`
-   },
+   }: undefined,
   })
 };
 
